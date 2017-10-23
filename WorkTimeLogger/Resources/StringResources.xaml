@@ -1,0 +1,79 @@
+﻿<ResourceDictionary 
+      xmlns ="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+      xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <system:String x:Key="WindowTitle">Arbeitszeiterfassung</system:String>
+    
+    <system:String x:Key="TabHeadLogin">Login</system:String>
+    <system:String x:Key="TabHeadEntry">Eingabe</system:String>
+    <system:String x:Key="TabHeadHistory">Historie</system:String>
+    <system:String x:Key="TabHeadSurplus">Zeitkonto</system:String>
+    <system:String x:Key="TabHeadShiftPlan">Schichtplan</system:String>
+    <system:String x:Key="TabHeadVacation">Urlaub</system:String>
+    <system:String x:Key="TabHeadChangePass">Passwort ändern</system:String>
+
+    <system:String x:Key="LblLoginUserID">Benutzer ID</system:String>
+    <system:String x:Key="LblLoginPassword">Passwort</system:String>
+    <system:String x:Key="LblOldPassword">altes Passwort</system:String>
+    <system:String x:Key="LblNewPassword">neues Passwort</system:String>
+    <system:String x:Key="LblNewPassword2">Wiederholung</system:String>
+    <system:String x:Key="LblNewPwDiffers">Passwörter müssen übereinstimmen!</system:String>
+    <system:String x:Key="LblPwChangeSuccess">Passwort erfolgreich geändert.</system:String>
+
+    <system:String x:Key="BtnlblLogin">Login</system:String>
+    <system:String x:Key="BtnlblChangePass">Ändern</system:String>
+    <system:String x:Key="BtnlblStartDay">Arbeitstag Anfang</system:String>
+    <system:String x:Key="BtnlblEndDay">Arbeitstag Ende</system:String>
+    <system:String x:Key="BtnlblStartBreak">Pause Anfang</system:String>
+    <system:String x:Key="BtnlblEndBreak">Pause Ende</system:String>
+    <system:String x:Key="BtnlblStartSmokingBreak">Raucherpause Anfang</system:String>
+    <system:String x:Key="BtnlblEndSmokingBreak">Raucherpause Ende</system:String>
+    <system:String x:Key="BtnlblExit">Beenden</system:String>
+    <system:String x:Key="BtnlblShow">Anzeigen</system:String>
+    <system:String x:Key="BtnlblUpdate">Aktualisieren</system:String>
+    <system:String x:Key="BtnlblSetBreaks">Pausen nachtragen</system:String>
+    <system:String x:Key="BtnlblGetSurplus">Überstunden abrufen</system:String>
+
+    <system:String x:Key="ErrorWebService">Fehler beim WebService</system:String>
+    <system:String x:Key="ErrorLoginInvalid">Login fehlerhaft!</system:String>
+
+    <system:String x:Key="WorkShift">Schicht</system:String>
+
+    <system:String x:Key="FullName">Name</system:String>
+    <system:String x:Key="StaffNo">Nr.</system:String>
+    <system:String x:Key="Monday">Montag</system:String>
+    <system:String x:Key="Tuesday">Dienstag</system:String>
+    <system:String x:Key="Wednesday">Mittwoch</system:String>
+    <system:String x:Key="Thursday">Donnerstag</system:String>
+    <system:String x:Key="Friday">Freitag</system:String>
+    <system:String x:Key="Saturday">Samstag</system:String>
+    <system:String x:Key="Sunday">Sonntag</system:String>
+
+    <system:String x:Key="Year">Jahr</system:String>
+    <system:String x:Key="Week">Woche</system:String>
+
+    <system:String x:Key="Time">Uhrzeit</system:String>
+    <system:String x:Key="Type">Art</system:String>
+    <system:String x:Key="Creator">Ersteller</system:String>
+    <system:String x:Key="inActive">inaktiv</system:String>
+    <system:String x:Key="Status">Status</system:String>
+    <system:String x:Key="Surplus">Überstunden</system:String>
+    <system:String x:Key="tplanned">Zeit geplant</system:String>
+    <system:String x:Key="tlogged">Zeit geloggt</system:String>
+    <system:String x:Key="dailyworktime">tägl Arbeitszeit</system:String>
+    <system:String x:Key="currworktime">akt. Arbeitszeit</system:String>
+    <system:String x:Key="currbreaktime">akt. Pausenzeit</system:String>
+    <system:String x:Key="currsbreaktime">akt. Raucherzeit</system:String>
+    
+    <system:String x:Key="YearlyVacation">Jahresurlaub</system:String>
+    <system:String x:Key="RemainigVacation">Resturlaub</system:String>
+    <system:String x:Key="Illnesses">Krankheit</system:String>
+
+    <system:String x:Key="Date">Datum</system:String>
+    <system:String x:Key="posted">gebucht</system:String>
+    <system:String x:Key="HalfDay">halbtags</system:String>
+
+    <system:String x:Key="planned">geplant</system:String>
+    <system:String x:Key="logged">erfasst</system:String>
+    <system:String x:Key="Break">Pause</system:String>
+</ResourceDictionary> 

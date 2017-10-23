@@ -1,0 +1,2 @@
+                <ThumbButtonInfo Command="{Binding StartSmokingBreakCommand}" Visibility="{Binding CurrProcessInfo.BtnStartSmokeBreakBold,Converter={StaticResource BoolToVisConverter}}" IsEnabled="{Binding CurrProcessInfo.SmokingBreakEnabled}"/>
+                <ThumbButtonInfo Command="{Binding EndSmokingBreakCommand}" Visibility="{Binding CurrProcessInfo.BtnEndSmokeBreakBold,Converter={StaticResource BoolToVisConverter}}" IsEnabled="{Binding CurrProcessInfo.SmokingBreakEnabled}"/>

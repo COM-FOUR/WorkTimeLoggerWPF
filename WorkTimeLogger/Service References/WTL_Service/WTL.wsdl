@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:tns="urn:microsoft-dynamics-schemas/codeunit/WTL" targetNamespace="urn:microsoft-dynamics-schemas/codeunit/WTL" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <schema xmlns:tns="urn:microsoft-dynamics-nav/xmlports/x50014" elementFormDefault="qualified" targetNamespace="urn:microsoft-dynamics-nav/xmlports/x50014" xmlns="http://www.w3.org/2001/XMLSchema">
+      <complexType name="Staff">
+        <sequence>
+          <element minOccurs="1" maxOccurs="1" name="StaffNo" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="FirstName" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="LastName" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="StatisticsGroupCode" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="WeeklyWorkingHours" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="DailyBreak" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="BreakAfter" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="hasSmokingBreak" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="LoginMessage" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="LogoutMessage" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="isManager" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="isCurrentLogin" type="string" />
+        </sequence>
+      </complexType>
+      <complexType name="Member" mixed="true">
+        <sequence>
+          <element minOccurs="1" maxOccurs="unbounded" name="Staff" type="tns:Staff" />
+        </sequence>
+      </complexType>
+      <element name="Member" type="tns:Member" />
+    </schema>
+    <schema xmlns:tns="urn:microsoft-dynamics-nav/xmlports/x50017" elementFormDefault="qualified" targetNamespace="urn:microsoft-dynamics-nav/xmlports/x50017" xmlns="http://www.w3.org/2001/XMLSchema">
+      <complexType name="WeekDay">
+        <sequence>
+          <element minOccurs="1" maxOccurs="1" name="EmpNo" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="DayOfWeek" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="Date" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="WorkShift" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="WorkTime" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="Color" type="string" />
+        </sequence>
+      </complexType>
+      <complexType name="PlanEntry">
+        <sequence>
+          <element minOccurs="1" maxOccurs="1" name="StaffNo" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="FullName" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="WeekNo" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="hasWeekDays" type="string" />
+          <element minOccurs="1" maxOccurs="unbounded" name="WeekDay" type="tns:WeekDay" />
+        </sequence>
+      </complexType>
+      <complexType name="ShiftPlans" mixed="true">
+        <sequence>
+          <element minOccurs="1" maxOccurs="unbounded" name="PlanEntry" type="tns:PlanEntry" />
+        </sequence>
+      </complexType>
+      <element name="ShiftPlans" type="tns:ShiftPlans" />
+    </schema>
+    <schema xmlns:tns="urn:microsoft-dynamics-nav/xmlports/x50015" elementFormDefault="qualified" targetNamespace="urn:microsoft-dynamics-nav/xmlports/x50015" xmlns="http://www.w3.org/2001/XMLSchema">
+      <complexType name="WorkTime">
+        <sequence>
+          <element minOccurs="1" maxOccurs="1" name="StaffID" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="LogDateTime" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="LogType" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="LogSubtype" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="Creator" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="Skip" type="string" />
+        </sequence>
+      </complexType>
+      <complexType name="WorkTimes" mixed="true">
+        <sequence>
+          <element minOccurs="1" maxOccurs="unbounded" name="WorkTime" type="tns:WorkTime" />
+        </sequence>
+      </complexType>
+      <element name="WorkTimes" type="tns:WorkTimes" />
+    </schema>
+    <schema xmlns:tns="urn:microsoft-dynamics-nav/xmlports/x50018" elementFormDefault="qualified" targetNamespace="urn:microsoft-dynamics-nav/xmlports/x50018" xmlns="http://www.w3.org/2001/XMLSchema">
+      <complexType name="Surplus">
+        <sequence>
+          <element minOccurs="1" maxOccurs="1" name="Date" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="Name" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="WorkShiftOfDate" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="WorkHoursPlanned" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="WorkHoursLogged" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="WorkBreaks" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="ErrorOccurred" type="string" />
+        </sequence>
+      </complexType>
+      <complexType name="WorkTimeSurplus" mixed="true">
+        <sequence>
+          <element minOccurs="1" maxOccurs="unbounded" name="Surplus" type="tns:Surplus" />
+          <element minOccurs="1" maxOccurs="1" name="SumWorkHoursPlanned" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="SumWorkHoursLogged" type="string" />
+        </sequence>
+      </complexType>
+      <element name="WorkTimeSurplus" type="tns:WorkTimeSurplus" />
+    </schema>
+    <schema xmlns:tns="urn:microsoft-dynamics-nav/xmlports/x50016" elementFormDefault="qualified" targetNamespace="urn:microsoft-dynamics-nav/xmlports/x50016" xmlns="http://www.w3.org/2001/XMLSchema">
+      <complexType name="VacationDay">
+        <sequence>
+          <element minOccurs="1" maxOccurs="1" name="Date" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="HalfDay" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="Posted" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="WorkShiftCode" type="string" />
+        </sequence>
+      </complexType>
+      <complexType name="VacationDays">
+        <sequence>
+          <element minOccurs="1" maxOccurs="1" name="YearlyVacation" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="RemainingVacation" type="string" />
+          <element minOccurs="1" maxOccurs="1" name="DaysOfIllness" type="string" />
+          <element minOccurs="1" maxOccurs="unbounded" name="VacationDay" type="tns:VacationDay" />
+        </sequence>
+      </complexType>
+      <element name="VacationDays" type="tns:VacationDays" />
+    </schema>
+    <schema elementFormDefault="qualified" targetNamespace="urn:microsoft-dynamics-schemas/codeunit/WTL" xmlns="http://www.w3.org/2001/XMLSchema">
+      <element name="GetServerTime">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="signature" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="serverTime" type="dateTime" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetServerTime_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+            <element minOccurs="1" maxOccurs="1" name="serverTime" type="dateTime" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetStaffMember">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="signature" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="staffFilter" type="string" />
+            <element xmlns:q1="urn:microsoft-dynamics-nav/xmlports/x50014" minOccurs="1" maxOccurs="1" name="staff" type="q1:Member" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetStaffMember_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+            <element xmlns:q2="urn:microsoft-dynamics-nav/xmlports/x50014" minOccurs="1" maxOccurs="1" name="staff" type="q2:Member" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetShiftplan">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="signature" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="year" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="weekNo" type="int" />
+            <element xmlns:q3="urn:microsoft-dynamics-nav/xmlports/x50017" minOccurs="1" maxOccurs="1" name="shiftplans" type="q3:ShiftPlans" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetShiftplan_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+            <element xmlns:q4="urn:microsoft-dynamics-nav/xmlports/x50017" minOccurs="1" maxOccurs="1" name="shiftplans" type="q4:ShiftPlans" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetWorkTime">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="signature" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="staffID" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="dateFrom" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="dateTo" type="string" />
+            <element xmlns:q5="urn:microsoft-dynamics-nav/xmlports/x50015" minOccurs="1" maxOccurs="1" name="workTimes" type="q5:WorkTimes" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetWorkTime_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+            <element xmlns:q6="urn:microsoft-dynamics-nav/xmlports/x50015" minOccurs="1" maxOccurs="1" name="workTimes" type="q6:WorkTimes" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetLastWorkTime">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="signature" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="staffID" type="string" />
+            <element xmlns:q7="urn:microsoft-dynamics-nav/xmlports/x50015" minOccurs="1" maxOccurs="1" name="workTimes" type="q7:WorkTimes" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetLastWorkTime_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+            <element xmlns:q8="urn:microsoft-dynamics-nav/xmlports/x50015" minOccurs="1" maxOccurs="1" name="workTimes" type="q8:WorkTimes" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetWorkTimeSurplus">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="signature" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="staffID" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="_Mode" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="dateFrom" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="dateTo" type="string" />
+            <element xmlns:q9="urn:microsoft-dynamics-nav/xmlports/x50018" minOccurs="1" maxOccurs="1" name="workTimeSurpluses" type="q9:WorkTimeSurplus" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetWorkTimeSurplus_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+            <element xmlns:q10="urn:microsoft-dynamics-nav/xmlports/x50018" minOccurs="1" maxOccurs="1" name="workTimeSurpluses" type="q10:WorkTimeSurplus" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SetWorkTime">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="signature" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="staffID" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="logDateTimeText" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="logType" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="logSubType" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="creator" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SetWorkTime_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="DeleteWorkTime">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="signature" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="staffID" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="logDateTimeText" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="logType" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="logSubType" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="DeleteWorkTime_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetVacation">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="signature" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="staffID" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="year" type="int" />
+            <element xmlns:q11="urn:microsoft-dynamics-nav/xmlports/x50016" minOccurs="1" maxOccurs="1" name="vacations" type="q11:VacationDays" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetVacation_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+            <element xmlns:q12="urn:microsoft-dynamics-nav/xmlports/x50016" minOccurs="1" maxOccurs="1" name="vacations" type="q12:VacationDays" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SetDefaultBreak">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="signature" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="staffID" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="year" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="week" type="int" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="SetDefaultBreak_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="ChangePassword">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="signature" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="newSignature" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="ChangePassword_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="StaffIsManager">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="staffID" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="StaffIsManager_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+    </schema>
+  </types>
+  <message name="GetServerTime">
+    <part name="parameters" element="tns:GetServerTime" />
+  </message>
+  <message name="GetServerTime_Result">
+    <part name="parameters" element="tns:GetServerTime_Result" />
+  </message>
+  <message name="GetStaffMember">
+    <part name="parameters" element="tns:GetStaffMember" />
+  </message>
+  <message name="GetStaffMember_Result">
+    <part name="parameters" element="tns:GetStaffMember_Result" />
+  </message>
+  <message name="GetShiftplan">
+    <part name="parameters" element="tns:GetShiftplan" />
+  </message>
+  <message name="GetShiftplan_Result">
+    <part name="parameters" element="tns:GetShiftplan_Result" />
+  </message>
+  <message name="GetWorkTime">
+    <part name="parameters" element="tns:GetWorkTime" />
+  </message>
+  <message name="GetWorkTime_Result">
+    <part name="parameters" element="tns:GetWorkTime_Result" />
+  </message>
+  <message name="GetLastWorkTime">
+    <part name="parameters" element="tns:GetLastWorkTime" />
+  </message>
+  <message name="GetLastWorkTime_Result">
+    <part name="parameters" element="tns:GetLastWorkTime_Result" />
+  </message>
+  <message name="GetWorkTimeSurplus">
+    <part name="parameters" element="tns:GetWorkTimeSurplus" />
+  </message>
+  <message name="GetWorkTimeSurplus_Result">
+    <part name="parameters" element="tns:GetWorkTimeSurplus_Result" />
+  </message>
+  <message name="SetWorkTime">
+    <part name="parameters" element="tns:SetWorkTime" />
+  </message>
+  <message name="SetWorkTime_Result">
+    <part name="parameters" element="tns:SetWorkTime_Result" />
+  </message>
+  <message name="DeleteWorkTime">
+    <part name="parameters" element="tns:DeleteWorkTime" />
+  </message>
+  <message name="DeleteWorkTime_Result">
+    <part name="parameters" element="tns:DeleteWorkTime_Result" />
+  </message>
+  <message name="GetVacation">
+    <part name="parameters" element="tns:GetVacation" />
+  </message>
+  <message name="GetVacation_Result">
+    <part name="parameters" element="tns:GetVacation_Result" />
+  </message>
+  <message name="SetDefaultBreak">
+    <part name="parameters" element="tns:SetDefaultBreak" />
+  </message>
+  <message name="SetDefaultBreak_Result">
+    <part name="parameters" element="tns:SetDefaultBreak_Result" />
+  </message>
+  <message name="ChangePassword">
+    <part name="parameters" element="tns:ChangePassword" />
+  </message>
+  <message name="ChangePassword_Result">
+    <part name="parameters" element="tns:ChangePassword_Result" />
+  </message>
+  <message name="StaffIsManager">
+    <part name="parameters" element="tns:StaffIsManager" />
+  </message>
+  <message name="StaffIsManager_Result">
+    <part name="parameters" element="tns:StaffIsManager_Result" />
+  </message>
+  <portType name="WTL_Port">
+    <operation name="GetServerTime">
+      <input name="GetServerTime" message="tns:GetServerTime" />
+      <output name="GetServerTime_Result" message="tns:GetServerTime_Result" />
+    </operation>
+    <operation name="GetStaffMember">
+      <input name="GetStaffMember" message="tns:GetStaffMember" />
+      <output name="GetStaffMember_Result" message="tns:GetStaffMember_Result" />
+    </operation>
+    <operation name="GetShiftplan">
+      <input name="GetShiftplan" message="tns:GetShiftplan" />
+      <output name="GetShiftplan_Result" message="tns:GetShiftplan_Result" />
+    </operation>
+    <operation name="GetWorkTime">
+      <input name="GetWorkTime" message="tns:GetWorkTime" />
+      <output name="GetWorkTime_Result" message="tns:GetWorkTime_Result" />
+    </operation>
+    <operation name="GetLastWorkTime">
+      <input name="GetLastWorkTime" message="tns:GetLastWorkTime" />
+      <output name="GetLastWorkTime_Result" message="tns:GetLastWorkTime_Result" />
+    </operation>
+    <operation name="GetWorkTimeSurplus">
+      <input name="GetWorkTimeSurplus" message="tns:GetWorkTimeSurplus" />
+      <output name="GetWorkTimeSurplus_Result" message="tns:GetWorkTimeSurplus_Result" />
+    </operation>
+    <operation name="SetWorkTime">
+      <input name="SetWorkTime" message="tns:SetWorkTime" />
+      <output name="SetWorkTime_Result" message="tns:SetWorkTime_Result" />
+    </operation>
+    <operation name="DeleteWorkTime">
+      <input name="DeleteWorkTime" message="tns:DeleteWorkTime" />
+      <output name="DeleteWorkTime_Result" message="tns:DeleteWorkTime_Result" />
+    </operation>
+    <operation name="GetVacation">
+      <input name="GetVacation" message="tns:GetVacation" />
+      <output name="GetVacation_Result" message="tns:GetVacation_Result" />
+    </operation>
+    <operation name="SetDefaultBreak">
+      <input name="SetDefaultBreak" message="tns:SetDefaultBreak" />
+      <output name="SetDefaultBreak_Result" message="tns:SetDefaultBreak_Result" />
+    </operation>
+    <operation name="ChangePassword">
+      <input name="ChangePassword" message="tns:ChangePassword" />
+      <output name="ChangePassword_Result" message="tns:ChangePassword_Result" />
+    </operation>
+    <operation name="StaffIsManager">
+      <input name="StaffIsManager" message="tns:StaffIsManager" />
+      <output name="StaffIsManager_Result" message="tns:StaffIsManager_Result" />
+    </operation>
+  </portType>
+  <binding name="WTL_Binding" type="tns:WTL_Port">
+    <binding transport="http://schemas.xmlsoap.org/soap/http" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+    <operation name="GetServerTime">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/WTL:GetServerTime" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="GetServerTime">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="GetServerTime_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="GetStaffMember">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/WTL:GetStaffMember" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="GetStaffMember">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="GetStaffMember_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="GetShiftplan">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/WTL:GetShiftplan" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="GetShiftplan">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="GetShiftplan_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="GetWorkTime">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/WTL:GetWorkTime" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="GetWorkTime">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="GetWorkTime_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="GetLastWorkTime">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/WTL:GetLastWorkTime" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="GetLastWorkTime">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="GetLastWorkTime_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="GetWorkTimeSurplus">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/WTL:GetWorkTimeSurplus" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="GetWorkTimeSurplus">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="GetWorkTimeSurplus_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="SetWorkTime">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/WTL:SetWorkTime" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="SetWorkTime">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="SetWorkTime_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="DeleteWorkTime">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/WTL:DeleteWorkTime" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="DeleteWorkTime">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="DeleteWorkTime_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="GetVacation">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/WTL:GetVacation" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="GetVacation">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="GetVacation_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="SetDefaultBreak">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/WTL:SetDefaultBreak" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="SetDefaultBreak">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="SetDefaultBreak_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="ChangePassword">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/WTL:ChangePassword" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="ChangePassword">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="ChangePassword_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="StaffIsManager">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/WTL:StaffIsManager" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="StaffIsManager">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="StaffIsManager_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+  </binding>
+  <service name="WTL">
+    <port name="WTL_Port" binding="tns:WTL_Binding">
+      <address location="http://192.168.25.95:7047/NavServerCF/WS/COM-FOUR%20Computer%20Vertr.%20GmbH/Codeunit/WTL" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+    </port>
+  </service>
+</definitions>

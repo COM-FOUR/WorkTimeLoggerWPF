@@ -1,0 +1,24 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="WorkTimeLogger.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ServiceLogin" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">#navrep@com-four.local</Value>
+    </Setting>
+    <Setting Name="ServicePassword" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">heute10!</Value>
+    </Setting>
+    <Setting Name="ServiceURL" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://192.168.15.2:7047/NavServerCF/WS/COM-FOUR Computer Vertr. GmbH/Codeunit/WTL</Value>
+    </Setting>
+    <Setting Name="useWindowsAuthentication" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Default_Login" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Default_Password" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
+</SettingsFile>
