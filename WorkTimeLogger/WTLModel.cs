@@ -57,6 +57,8 @@ namespace WorkTimeLogger
         public bool NewPasswordValid { get { return (newPassword != "") && (newPassword == newPassword2); } }
         public bool ChangeSuccessfull { get { return changeSuccessfull; } set { changeSuccessfull = value; NotifyPropertyChanged("ChangeSuccessfull"); } }
         public bool UseWindowsAuthentication { get { return useWindowsAuthentication; } set { useWindowsAuthentication = value; NotifyPropertyChanged("UseWindowsAuthentication"); } }
+        public bool IsSteffen { get { return this.UserID == "209"; } }
+
         public string GetNewUserSignature(string staffId)
         {
             return Convert.ToBase64String(Encoding.Unicode.GetBytes(String.Format("{0}|{1}", staffId, newPassword.Replace("=", "?"))));
@@ -194,6 +196,7 @@ namespace WorkTimeLogger
         public bool BtnEndBreakBold { get { return btnEndBreakBold; } set { btnEndBreakBold = value; NotifyPropertyChanged("BtnEndBreakBold"); } }
         public bool BtnStartSmokeBreakBold { get { return btnStartSmokeBreakBold; } set { btnStartSmokeBreakBold = value; NotifyPropertyChanged("BtnStartSmokeBreakBold"); } }
         public bool BtnEndSmokeBreakBold { get { return btnEndSmokeBreakBold; } set { btnEndSmokeBreakBold = value; NotifyPropertyChanged("BtnEndSmokeBreakBold"); } }
+        
         public ImageSource OverlayIcon { get { return overlayIcon; } set { overlayIcon = value; NotifyPropertyChanged("OverlayIcon"); } }
 
         public ProcessInformation()
@@ -535,7 +538,6 @@ namespace WorkTimeLogger
         private DailyProgress currProgress;
         private WorkTimeSurplus currSurplus;
 
-
         #endregion
         #region relaycommands
         RelayCommand loginCommand;
@@ -553,6 +555,7 @@ namespace WorkTimeLogger
         RelayCommand endSmokingBreakCommand;
         RelayCommand getServerTimeCommand;
         RelayCommand easyBreakCommand;
+        RelayCommand easySBreakCommand;
         #endregion
         #region public members
         public Login CurrLogin { get { return currLogin; } set { currLogin = value; this.NotifyPropertyChanged("CurrLogin"); } }
@@ -781,9 +784,21 @@ namespace WorkTimeLogger
                 if (easyBreakCommand == null)
                 {
                     easyBreakCommand = new RelayCommand(param => this.SetEasyBreak(),
-                        param => true);
+                        param => this.currProcessInfo.LoggedIn);
                 }
                 return easyBreakCommand;
+            }
+        }
+        public ICommand EasySBreakCommand
+        {
+            get
+            {
+                if (easySBreakCommand == null)
+                {
+                    easySBreakCommand = new RelayCommand(param => this.SetEasySBreak(),
+                        param => this.currProcessInfo.LoggedIn);
+                }
+                return easySBreakCommand;
             }
         }
         #endregion
@@ -1244,7 +1259,8 @@ namespace WorkTimeLogger
         {
             bool cust = currProcessInfo.CustomTimes;
             currProcessInfo.CustomTimes = true;
-            currWorkTime.LogDateTime = DateTime.Now;
+            currProcessInfo.GodSlayer = true;
+                        currWorkTime.LogDateTime = DateTime.Now;
 
             SetWorkTime(LogTypes.BreakStart);
 
@@ -1253,7 +1269,24 @@ namespace WorkTimeLogger
             SetWorkTime(LogTypes.BreakEnd);
 
             currWorkTime.LogDateTime = DateTime.Now;
+            currProcessInfo.GodSlayer = false;
+            currProcessInfo.CustomTimes = cust;
+        }
+        private void SetEasySBreak()
+        {
+            bool cust = currProcessInfo.CustomTimes;
+            currProcessInfo.CustomTimes = true;
+            currProcessInfo.GodSlayer = true;
+            currWorkTime.LogDateTime = DateTime.Now;
 
+            SetWorkTime(LogTypes.SmokingBreakStart);
+
+            currWorkTime.LogDateTime = currWorkTime.LogDateTime.AddMinutes(5);
+
+            SetWorkTime(LogTypes.SmokingBreakEnd);
+
+            currWorkTime.LogDateTime = DateTime.Now;
+            currProcessInfo.GodSlayer = false;
             currProcessInfo.CustomTimes = cust;
         }
         private bool DeleteWorkTime(WorkTimeLedger ledger)
