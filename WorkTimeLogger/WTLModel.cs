@@ -566,7 +566,7 @@ namespace WorkTimeLogger
             { 
                 currEmployee = value;
 
-                if (value == null || value.StaffNo == "")
+                if (value == null | value.StaffNo  == null | value.StaffNo == "")
                     return;
 
                 CurrProcessInfo.SmokingBreakEnabled = value.SmokingBreakEnabled; 
@@ -592,8 +592,11 @@ namespace WorkTimeLogger
                 
                 NotifyPropertyChanged("CurrentDate");
 
-                SetCurrentLedgers(null);
-
+                if (CurrEmployee.StaffNo != null)
+                {
+                    SetCurrentLedgers(null);
+                }
+                
                 CurrentWeek = Helpers.GetCurrentWeek(value);
             } 
         }
@@ -999,6 +1002,11 @@ namespace WorkTimeLogger
         }
         private void SetCurrentLedgers(List<WorkTimeLedger> ledgers)
         {
+            if (CurrEmployee.StaffNo == null)
+            {
+                return;
+            }
+
             if (ledgers == null) 
             { 
                 if (!GetWorkTimeLedgers(currentDate, out ledgers))
@@ -1353,14 +1361,14 @@ namespace WorkTimeLogger
             ledgers = new List<WorkTimeLedger>();
 
             SetErrorMessage("");
-
+            
             try
             {
                 WTL_Service.WTL_PortClient wtl = new WTL_Service.WTL_PortClient("WTL_Port", Properties.Settings.Default.ServiceURL);
                 wtl.ClientCredentials.Windows.ClientCredential = new NetworkCredential(Properties.Settings.Default.ServiceLogin, Properties.Settings.Default.ServicePassword);
 
                 WTL_Service.WorkTimes worktimes = new WTL_Service.WorkTimes();
-
+                
                 result = wtl.GetWorkTime(CurrLogin.Signature, currEmployee.StaffNo, date.ToUniversalTime().ToString("o"), date.ToUniversalTime().ToString("o"), ref worktimes);
 
                 if (result)
@@ -1676,7 +1684,9 @@ namespace WorkTimeLogger
             CurrentDate = dt;
 
             if (updateSegments)
+            {
                 CalcSegments();
+            }
 
             return result;
         }
