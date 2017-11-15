@@ -6,7 +6,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         Title="{DynamicResource WindowTitle}" 
-        Height="380" Width="525" 
+        Height="400" Width="530" 
         Icon="Images\time.ico" 
         Name="mw" 
         FocusManager.FocusedElement="{Binding ElementName=UserBox}">
@@ -42,7 +42,14 @@
             
         </TaskbarItemInfo>
     </Window.TaskbarItemInfo>
-    <DockPanel>
+    <DockPanel Name="MainDockPanel" SizeChanged="MainDockPanel_SizeChanged">
+        <DockPanel.LayoutTransform>
+            <ScaleTransform x:Name="ApplicationScaleTransform"
+                        CenterX="0"
+                        CenterY="0"
+                        ScaleX="{Binding ElementName=mw, Path=ScaleValue}"
+                        ScaleY="{Binding ElementName=mw, Path=ScaleValue}" />
+        </DockPanel.LayoutTransform>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Visibility="{Binding CurrProcessInfo.ErrorOcurred, Converter={StaticResource BoolToVisConverter}}">
             <StackPanel.Background>
                 <LinearGradientBrush>

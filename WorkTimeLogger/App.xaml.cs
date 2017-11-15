@@ -42,6 +42,7 @@ namespace WorkTimeLogger
             MainWindow mw = new MainWindow();
 
             mw.DataContext = model;
+            mw.ScaleValue = 5;
             mw.Show();
         }
         public static void CreateJumpList()
