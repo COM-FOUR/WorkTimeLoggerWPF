@@ -164,6 +164,7 @@ namespace WorkTimeLogger
         private bool smokingBreakEnabled;
         private string errorMessage;
         private bool useWindowsAuthentication;
+        private bool startmaximized;
 
         private bool btnStartWorkDayBold;
         private bool btnEndWorkDayBold;
@@ -182,6 +183,7 @@ namespace WorkTimeLogger
         public string ErrorMessage { get { return errorMessage; } set { errorMessage = value; NotifyPropertyChanged("ErrorOcurred"); NotifyPropertyChanged("ErrorMessage"); } }
         public bool UseWindowsAuthentication { get { return useWindowsAuthentication; } set { useWindowsAuthentication = value; NotifyPropertyChanged("UseWindowsAuthentication"); } }
         public bool StayOpen { get { return stayOpen; } set { stayOpen = value; NotifyPropertyChanged("StayOpen"); } }
+        public bool StartMaximized { get { return startmaximized; } set { startmaximized = value; NotifyPropertyChanged("StartMaximized"); } }
         public bool GodSlayer { get; set; }
         public bool isManager { get; set; }
         public bool DeleteAllowed { get { return deleteAllowed; } set { deleteAllowed = value; NotifyPropertyChanged("DeleteAllowed"); } }
@@ -242,6 +244,7 @@ namespace WorkTimeLogger
         private string btnlblStartSmokingBreak;
         private string btnlblEndSmokingBreak;
         private string btnlblExit;
+
         //messages
         //private string errorWebService;
         //private string errorLoginInvalid;
@@ -844,6 +847,7 @@ namespace WorkTimeLogger
             
         }
 
+        #region Methods
         void currentLedgers_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             if (e.Action!= System.Collections.Specialized.NotifyCollectionChangedAction.Remove)
@@ -922,6 +926,8 @@ namespace WorkTimeLogger
                     break;
                 case "USENTLM": currProcessInfo.UseWindowsAuthentication = true;
                     break;
+                case "MAXIMIZED": currProcessInfo.StartMaximized = true;
+                    break;
                 default:
                     break;
             }
@@ -980,7 +986,6 @@ namespace WorkTimeLogger
             CurrProcessInfo.BtnStartSmokeBreakBold = (lastLogEntry.LogType=="Login");
             CurrProcessInfo.BtnEndSmokeBreakBold = (lastLogEntry.LogType == "Logout" & lastLogEntry.LogSubtype == "SmokeBreak");
         }
-
         private void SetOverlayIcon()
         {
             BitmapImage bi = null;
@@ -1690,6 +1695,7 @@ namespace WorkTimeLogger
 
             return result;
         }
+        #endregion
     }
     #endregion
 

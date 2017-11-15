@@ -42,7 +42,10 @@ namespace WorkTimeLogger
             MainWindow mw = new MainWindow();
 
             mw.DataContext = model;
-            mw.ScaleValue = 5;
+            if (model.CurrProcessInfo.StartMaximized)
+            {
+                mw.WindowState = System.Windows.WindowState.Maximized;
+            }
             mw.Show();
         }
         public static void CreateJumpList()

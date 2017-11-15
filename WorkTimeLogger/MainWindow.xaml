@@ -26,8 +26,8 @@
     </Window.Resources>
     <Window.Background>
         <LinearGradientBrush>
-            <GradientStop Color="BlueViolet" Offset="0.6"/>
-            <GradientStop Color="Pink" Offset="0.1"/>
+            <GradientStop Color="Gray" Offset="0.6"/>
+            <GradientStop Color="LightSlateGray" Offset="0.1"/>
         </LinearGradientBrush>
     </Window.Background>
     <Window.TaskbarItemInfo>
