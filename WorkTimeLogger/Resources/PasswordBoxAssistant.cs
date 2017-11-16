@@ -14,6 +14,9 @@ using Xceed.Wpf.Toolkit;
 
 namespace WorkTimeLogger.Resources
 {
+    /// <summary>
+    /// utility class to provide a bindable PasswordBox
+    /// </summary>
     public static class PasswordBoxAssistant
     {
         public static readonly DependencyProperty BoundPassword =

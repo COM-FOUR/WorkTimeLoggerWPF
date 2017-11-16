@@ -19,8 +19,10 @@ using System.Windows.Shell;
 
 namespace WorkTimeLogger
 {
-
     #region model
+    /// <summary>
+    /// model for mvvm pattern
+    /// </summary>
     public class WTLModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -30,27 +32,30 @@ namespace WorkTimeLogger
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
         }
     }
+    /// <summary>
+    /// contains login credentials and related methods
+    /// </summary>
     public class Login : WTLModel
     {
-        //privates
+        #region  Privates
+        internal string userID { get; set; }
+        internal string password { get; set; }
+        internal bool useWindowsAuthentication = false;
+        internal string newPassword = "";
+        internal string newPassword2 = "";
+        internal bool changeSuccessfull = false;
+        #endregion
 
-        private string userID { get; set; }
-        private string password { get; set; }
-
-        private bool useWindowsAuthentication = false;
-
-        //private string oldPassword ="";
-        private string newPassword = "";
-        private string newPassword2 = "";
-
-        private bool changeSuccessfull = false;
-
-        //publics
+        #region  Publics
         public string UserID { get { return userID; } set { userID = value; NotifyPropertyChanged("UserID"); } }
         public string Password { get { return password; } set { password = value; NotifyPropertyChanged("Password"); } }
-        public string Signature { get { return Convert.ToBase64String(Encoding.Unicode.GetBytes(String.Format("{0}|{1}|{2}", loginType(), userID, password.Replace("=", "?")))); } }
+        public string Signature {
+            get
+            {
+                return Convert.ToBase64String(Encoding.Unicode.GetBytes(String.Format("{0}|{1}|{2}", this.loginType(), userID, password.Replace("=", "?"))));
+            }
+        }
         public bool isComplete { get { return (userID != "" && password != "" && userID != null && password != null); } }
-        
         public string NewPassword { get { return newPassword; } set { newPassword = value; NotifyPropertyChanged("NewPassword"); NotifyPropertyChanged("NewPasswordValid"); NotifyPropertyChanged("NewPasswordsDifferent"); } }
         public string NewPassword2 { get { return newPassword2; } set { newPassword2 = value; NotifyPropertyChanged("NewPassword2"); NotifyPropertyChanged("NewPasswordValid"); NotifyPropertyChanged("NewPasswordsDifferent"); } }
         public bool NewPasswordsDifferent { get { return newPassword != newPassword2; } }
@@ -58,20 +63,20 @@ namespace WorkTimeLogger
         public bool ChangeSuccessfull { get { return changeSuccessfull; } set { changeSuccessfull = value; NotifyPropertyChanged("ChangeSuccessfull"); } }
         public bool UseWindowsAuthentication { get { return useWindowsAuthentication; } set { useWindowsAuthentication = value; NotifyPropertyChanged("UseWindowsAuthentication"); } }
         public bool IsSteffen { get { return this.UserID == "209"; } }
+        #endregion
 
+        #region Methods
         public string GetNewUserSignature(string staffId)
         {
             return Convert.ToBase64String(Encoding.Unicode.GetBytes(String.Format("{0}|{1}", staffId, newPassword.Replace("=", "?"))));
         }
-
         public Login() : this("", "") { }
         public Login(string userid, string password)
         {
             UserID = userid;
             Password = password;
         }
-
-        private string loginType()
+        internal string loginType()
         {
             string result="XX0";
             if (useWindowsAuthentication)
@@ -81,9 +86,14 @@ namespace WorkTimeLogger
 
             return result;
         }
+        #endregion
     }
+    /// <summary>
+    /// Datamodel for Worktime
+    /// </summary>
     public class WorkTime : WTLModel
     {
+        //constructor
         public WorkTime()
         {
             date = DateTime.Today;
@@ -92,13 +102,14 @@ namespace WorkTimeLogger
             seconds = 0;
         }
 
-        //privates
-        private DateTime date;
-        private int hours;
-        private int minutes;
-        private int seconds;
+        #region privates
+        internal DateTime date;
+        internal int hours;
+        internal int minutes;
+        internal int seconds;
+        #endregion
 
-        //publics
+        #region publics
         public int Hours { get { return hours; } set { CheckIntegerBounds(ref value, 0, 23); hours = value; NotifyPropertyChanged("Hours"); NotifyPropertyChanged("LogTime"); } }
         public int Minutes { get { return minutes; } set { CheckIntegerBounds(ref value, 0, 59); minutes = value; NotifyPropertyChanged("Minutes"); NotifyPropertyChanged("LogTime"); } }
         public int Seconds { get { return seconds; } set { CheckIntegerBounds(ref value, 0, 59); seconds = value; NotifyPropertyChanged("Seconds"); NotifyPropertyChanged("LogTime"); } }
@@ -138,8 +149,10 @@ namespace WorkTimeLogger
                 LogTime = value;
             }
         }
+        #endregion
 
-        private void CheckIntegerBounds(ref int value, int minvalue, int maxvalue)
+        #region methods
+        internal void CheckIntegerBounds(ref int value, int minvalue, int maxvalue)
         {
             if (value < minvalue)
             {
@@ -150,32 +163,35 @@ namespace WorkTimeLogger
                 value = maxvalue;
             }
         }
+        #endregion
     }
+    /// <summary>
+    /// contains information/flags needed at runtime
+    /// </summary>
     public class ProcessInformation : WTLModel
     {
-        //privates
-        private bool customTimes;
-        private bool selectEmployee;
-        private bool deleteAllowed;
-        private bool stayOpen;
-        private int selectedTab;
-        private bool needsLogin;
-        private bool loggedIn;
-        private bool smokingBreakEnabled;
-        private string errorMessage;
-        private bool useWindowsAuthentication;
-        private bool startmaximized;
+        #region privates
+        internal bool customTimes;
+        internal bool selectEmployee;
+        internal bool deleteAllowed;
+        internal bool stayOpen;
+        internal int selectedTab;
+        internal bool needsLogin;
+        internal bool loggedIn;
+        internal bool smokingBreakEnabled;
+        internal string errorMessage;
+        internal bool useWindowsAuthentication;
+        internal bool startmaximized;
+        internal bool btnStartWorkDayBold;
+        internal bool btnEndWorkDayBold;
+        internal bool btnStartBreakBold;
+        internal bool btnEndBreakBold;
+        internal bool btnStartSmokeBreakBold;
+        internal bool btnEndSmokeBreakBold;
+        internal ImageSource overlayIcon;
+        #endregion
 
-        private bool btnStartWorkDayBold;
-        private bool btnEndWorkDayBold;
-        private bool btnStartBreakBold;
-        private bool btnEndBreakBold;
-        private bool btnStartSmokeBreakBold;
-        private bool btnEndSmokeBreakBold;
-
-        private ImageSource overlayIcon;
-
-        //publics
+        #region publics
         public bool SilentProcessing { get; set; }
         public bool CustomTimes { get { return customTimes; } set { customTimes = value; NotifyPropertyChanged("CustomTimes"); } }
         public bool SelectEmployee { get { return selectEmployee; } set { selectEmployee = value; NotifyPropertyChanged("SelectEmployee"); } }
@@ -198,9 +214,10 @@ namespace WorkTimeLogger
         public bool BtnEndBreakBold { get { return btnEndBreakBold; } set { btnEndBreakBold = value; NotifyPropertyChanged("BtnEndBreakBold"); } }
         public bool BtnStartSmokeBreakBold { get { return btnStartSmokeBreakBold; } set { btnStartSmokeBreakBold = value; NotifyPropertyChanged("BtnStartSmokeBreakBold"); } }
         public bool BtnEndSmokeBreakBold { get { return btnEndSmokeBreakBold; } set { btnEndSmokeBreakBold = value; NotifyPropertyChanged("BtnEndSmokeBreakBold"); } }
-        
         public ImageSource OverlayIcon { get { return overlayIcon; } set { overlayIcon = value; NotifyPropertyChanged("OverlayIcon"); } }
+        #endregion
 
+        //constructor
         public ProcessInformation()
         {
             SilentProcessing = false;
@@ -215,126 +232,132 @@ namespace WorkTimeLogger
             useWindowsAuthentication = Properties.Settings.Default.useWindowsAuthentication;
         }
     }
-    public class UIElementInfo : WTLModel
-    {
-        //windowtitle
-        private string windowTitle;
-        //tabnames
-        private string tabHeadLogin;
-        private string tabHeadEntry;
-        private string tabHeadHistory;
-        private string tabHeadShiftPlan;
-        private string tabHeadVacation;
-        private string tabHeadChangePass;
-        //labels
-        private string lblLoginUserID;
-        private string lblLoginPassword;
-        private string lblOldPassword;
-        private string lblNewPassword;
-        private string lblNewPassword2;
-        private string lblNewPwDiffers;
-        private string lblPwChangeSuccess;
-        //button labels
-        private string btnlblLogin;
-        private string btnlblChangePass;
-        private string btnlblStartDay;
-        private string btnlblEndDay;
-        private string btnlblStartBreak;
-        private string btnlblEndBreak;
-        private string btnlblStartSmokingBreak;
-        private string btnlblEndSmokingBreak;
-        private string btnlblExit;
+    // deprecated class
+    //public class UIElementInfo : WTLModel
+    //{
+    //    //windowtitle
+    //    private string windowTitle;
+    //    //tabnames
+    //    private string tabHeadLogin;
+    //    private string tabHeadEntry;
+    //    private string tabHeadHistory;
+    //    private string tabHeadShiftPlan;
+    //    private string tabHeadVacation;
+    //    private string tabHeadChangePass;
+    //    //labels
+    //    private string lblLoginUserID;
+    //    private string lblLoginPassword;
+    //    private string lblOldPassword;
+    //    private string lblNewPassword;
+    //    private string lblNewPassword2;
+    //    private string lblNewPwDiffers;
+    //    private string lblPwChangeSuccess;
+    //    //button labels
+    //    private string btnlblLogin;
+    //    private string btnlblChangePass;
+    //    private string btnlblStartDay;
+    //    private string btnlblEndDay;
+    //    private string btnlblStartBreak;
+    //    private string btnlblEndBreak;
+    //    private string btnlblStartSmokingBreak;
+    //    private string btnlblEndSmokingBreak;
+    //    private string btnlblExit;
 
-        //messages
-        //private string errorWebService;
-        //private string errorLoginInvalid;
+    //    //messages
+    //    //private string errorWebService;
+    //    //private string errorLoginInvalid;
 
-        //publics
-        public string WindowTitle { get { return windowTitle; } set { windowTitle = value; NotifyPropertyChanged("WindowTitle"); } }
+    //    //publics
+    //    public string WindowTitle { get { return windowTitle; } set { windowTitle = value; NotifyPropertyChanged("WindowTitle"); } }
+    //    public string TabHeadLogin { get { return tabHeadLogin; } set { tabHeadLogin = value; NotifyPropertyChanged("TabHeadLogin"); } }
+    //    public string TabHeadEntry { get { return tabHeadEntry; } set { tabHeadEntry = value; NotifyPropertyChanged("TabHeadEntry"); } }
+    //    public string TabHeadHistory { get { return tabHeadHistory; } set { tabHeadHistory = value; NotifyPropertyChanged("TabHeadHistory"); } }
+    //    public string TabHeadShiftPlan { get { return tabHeadShiftPlan; } set { tabHeadShiftPlan = value; NotifyPropertyChanged("TabHeadShiftPlan"); } }
+    //    public string TabHeadVacation { get { return tabHeadVacation; } set { tabHeadVacation = value; NotifyPropertyChanged("TabHeadVacation"); } }
 
-        public string TabHeadLogin { get { return tabHeadLogin; } set { tabHeadLogin = value; NotifyPropertyChanged("TabHeadLogin"); } }
-        public string TabHeadEntry { get { return tabHeadEntry; } set { tabHeadEntry = value; NotifyPropertyChanged("TabHeadEntry"); } }
-        public string TabHeadHistory { get { return tabHeadHistory; } set { tabHeadHistory = value; NotifyPropertyChanged("TabHeadHistory"); } }
-        public string TabHeadShiftPlan { get { return tabHeadShiftPlan; } set { tabHeadShiftPlan = value; NotifyPropertyChanged("TabHeadShiftPlan"); } }
-        public string TabHeadVacation { get { return tabHeadVacation; } set { tabHeadVacation = value; NotifyPropertyChanged("TabHeadVacation"); } }
+    //    public string TabHeadChangePass { get { return tabHeadChangePass; } set { tabHeadChangePass = value; NotifyPropertyChanged("TabHeadChangePass"); } }
 
-        public string TabHeadChangePass { get { return tabHeadChangePass; } set { tabHeadChangePass = value; NotifyPropertyChanged("TabHeadChangePass"); } }
+    //    public string LblLoginUserID { get { return lblLoginUserID; } set { lblLoginUserID = value; NotifyPropertyChanged("LblLoginUserID"); } }
+    //    public string LblLoginPassword { get { return lblLoginPassword; } set { lblLoginPassword = value; NotifyPropertyChanged("LblLoginPassword"); } }
+    //    public string LblOldPassword { get { return lblOldPassword; } set { lblOldPassword = value; NotifyPropertyChanged("LblOldPassword"); } }
+    //    public string LblNewPassword { get { return lblNewPassword; } set { lblNewPassword = value; NotifyPropertyChanged("LblNewPassword"); } }
+    //    public string LblNewPassword2 { get { return lblNewPassword2; } set { lblNewPassword2 = value; NotifyPropertyChanged("LblNewPassword2"); } }
+    //    public string LblNewPwDiffers { get { return lblNewPwDiffers; } set { lblNewPwDiffers = value; NotifyPropertyChanged("LblNewPwDiffers"); } }
+    //    public string LblPwChangeSuccess { get { return lblPwChangeSuccess; } set { lblPwChangeSuccess = value; NotifyPropertyChanged("LblPwChangeSuccess"); } }
 
-        public string LblLoginUserID { get { return lblLoginUserID; } set { lblLoginUserID = value; NotifyPropertyChanged("LblLoginUserID"); } }
-        public string LblLoginPassword { get { return lblLoginPassword; } set { lblLoginPassword = value; NotifyPropertyChanged("LblLoginPassword"); } }
-        public string LblOldPassword { get { return lblOldPassword; } set { lblOldPassword = value; NotifyPropertyChanged("LblOldPassword"); } }
-        public string LblNewPassword { get { return lblNewPassword; } set { lblNewPassword = value; NotifyPropertyChanged("LblNewPassword"); } }
-        public string LblNewPassword2 { get { return lblNewPassword2; } set { lblNewPassword2 = value; NotifyPropertyChanged("LblNewPassword2"); } }
-        public string LblNewPwDiffers { get { return lblNewPwDiffers; } set { lblNewPwDiffers = value; NotifyPropertyChanged("LblNewPwDiffers"); } }
-        public string LblPwChangeSuccess { get { return lblPwChangeSuccess; } set { lblPwChangeSuccess = value; NotifyPropertyChanged("LblPwChangeSuccess"); } }
+    //    public string BtnlblLogin { get { return btnlblLogin; } set { btnlblLogin = value; NotifyPropertyChanged("BtnlblLogin"); } }
+    //    public string BtnlblChangePass { get { return btnlblChangePass; } set { btnlblChangePass = value; NotifyPropertyChanged("BtnlblChangePass"); } }
+    //    public string BtnlblStartDay { get { return btnlblStartDay; } set { btnlblStartDay = value; NotifyPropertyChanged("BtnlblStartDay"); } }
+    //    public string BtnlblEndDay { get { return btnlblEndDay; } set { btnlblEndDay = value; NotifyPropertyChanged("BtnlblEndDay"); } }
+    //    public string BtnlblStartBreak { get { return btnlblStartBreak; } set { btnlblStartBreak = value; NotifyPropertyChanged("BtnlblStartBreak"); } }
+    //    public string BtnlblEndBreak { get { return btnlblEndBreak; } set { btnlblEndBreak = value; NotifyPropertyChanged("BtnlblEndBreak"); } }
+    //    public string BtnlblStartSmokingBreak { get { return btnlblStartSmokingBreak; } set { btnlblStartSmokingBreak = value; NotifyPropertyChanged("BtnlblStartSmokingBreak"); } }
+    //    public string BtnlblEndSmokingBreak { get { return btnlblEndSmokingBreak; } set { btnlblEndSmokingBreak = value; NotifyPropertyChanged("BtnlblEndSmokingBreak"); } }
+    //    public string BtnlblExit { get { return btnlblExit; } set { btnlblExit = value; NotifyPropertyChanged("BtnlblExit"); } }
 
-        public string BtnlblLogin { get { return btnlblLogin; } set { btnlblLogin = value; NotifyPropertyChanged("BtnlblLogin"); } }
-        public string BtnlblChangePass { get { return btnlblChangePass; } set { btnlblChangePass = value; NotifyPropertyChanged("BtnlblChangePass"); } }
-        public string BtnlblStartDay { get { return btnlblStartDay; } set { btnlblStartDay = value; NotifyPropertyChanged("BtnlblStartDay"); } }
-        public string BtnlblEndDay { get { return btnlblEndDay; } set { btnlblEndDay = value; NotifyPropertyChanged("BtnlblEndDay"); } }
-        public string BtnlblStartBreak { get { return btnlblStartBreak; } set { btnlblStartBreak = value; NotifyPropertyChanged("BtnlblStartBreak"); } }
-        public string BtnlblEndBreak { get { return btnlblEndBreak; } set { btnlblEndBreak = value; NotifyPropertyChanged("BtnlblEndBreak"); } }
-        public string BtnlblStartSmokingBreak { get { return btnlblStartSmokingBreak; } set { btnlblStartSmokingBreak = value; NotifyPropertyChanged("BtnlblStartSmokingBreak"); } }
-        public string BtnlblEndSmokingBreak { get { return btnlblEndSmokingBreak; } set { btnlblEndSmokingBreak = value; NotifyPropertyChanged("BtnlblEndSmokingBreak"); } }
-        public string BtnlblExit { get { return btnlblExit; } set { btnlblExit = value; NotifyPropertyChanged("BtnlblExit"); } }
+    //    public string ErrorWebService { get; set; }
+    //    public string ErrorLoginInvalid { get; set; }
+    //    public UIElementInfo()
+    //    {
+    //        windowTitle = "Arbeitszeiterfassung";
 
-        public string ErrorWebService { get; set; }
-        public string ErrorLoginInvalid { get; set; }
-        public UIElementInfo()
-        {
-            windowTitle = "Arbeitszeiterfassung";
+    //        tabHeadLogin = "Login";
+    //        tabHeadEntry = "Eingabe";
+    //        tabHeadHistory = "Historie";
+    //        tabHeadShiftPlan = "Schichtplan";
+    //        tabHeadVacation = "Urlaub";
+    //        tabHeadChangePass = "Passwort ändern";
 
-            tabHeadLogin = "Login";
-            tabHeadEntry = "Eingabe";
-            tabHeadHistory = "Historie";
-            tabHeadShiftPlan = "Schichtplan";
-            tabHeadVacation = "Urlaub";
-            tabHeadChangePass = "Passwort ändern";
+    //        lblLoginUserID = "BenutzerID";
+    //        lblLoginPassword = "Passwort";
+    //        lblOldPassword = "altes Passwort";
+    //        lblNewPassword = "neues Passwort";
+    //        lblNewPassword2 = "Wiederholung";
+    //        lblNewPwDiffers = "Passwörter müssen übereinstimmen";
+    //        lblPwChangeSuccess = "Passwort erfolgreich geändert.";
 
-            lblLoginUserID = "BenutzerID";
-            lblLoginPassword = "Passwort";
-            lblOldPassword = "altes Passwort";
-            lblNewPassword = "neues Passwort";
-            lblNewPassword2 = "Wiederholung";
-            lblNewPwDiffers = "Passwörter müssen übereinstimmen";
-            lblPwChangeSuccess = "Passwort erfolgreich geändert.";
+    //        btnlblLogin = "Login";
+    //        btnlblChangePass = "Ändern";
+    //        btnlblStartDay = "Arbeitstag Anfang";
+    //        btnlblEndDay = "Arbeitstag Ende";
+    //        btnlblStartBreak = "Pause Anfang";
+    //        btnlblEndBreak = "Pause Ende";
+    //        btnlblStartSmokingBreak = "Raucherpause Anfang";
+    //        btnlblEndSmokingBreak = "Raucherpause Ende";
+    //        btnlblExit = "Beenden";
 
-            btnlblLogin = "Login";
-            btnlblChangePass = "Ändern";
-            btnlblStartDay = "Arbeitstag Anfang";
-            btnlblEndDay = "Arbeitstag Ende";
-            btnlblStartBreak = "Pause Anfang";
-            btnlblEndBreak = "Pause Ende";
-            btnlblStartSmokingBreak = "Raucherpause Anfang";
-            btnlblEndSmokingBreak = "Raucherpause Ende";
-            btnlblExit = "Beenden";
-
-            ErrorWebService = "Fehler beim WebService";
-            ErrorLoginInvalid ="Login fehlerhaft";
-        }
-    }
+    //        ErrorWebService = "Fehler beim WebService";
+    //        ErrorLoginInvalid ="Login fehlerhaft";
+    //    }
+    //}
+    /// <summary>
+    /// contains information of current worktime situation, binding properties for a progressbar
+    /// </summary>
     public class DailyProgress : WTLModel
     {
+        #region statics
         static Brush workTimeBrush;
         static Brush breakBrush;
         static Brush sbreakBrush;
         static Brush overTimeBrush;
+        #endregion
 
-        private Brush barColor;
-        private double barMaxValue;
-        private double barValue;
-        private double workTime;
-        private double dworkTime;
-        private double sbreakTime;
-        private double breakTime;
-        private string barText;
-        private int seconds;
+        #region privates
+        internal  Brush barColor;
+        internal double barMaxValue;
+        internal double barValue;
+        internal double workTime;
+        internal double dworkTime;
+        internal double sbreakTime;
+        internal double breakTime;
+        internal string barText;
+        internal int seconds;
+        internal double progressValue = 0;
+        internal TaskbarItemProgressState progressState = TaskbarItemProgressState.None;
+        internal System.Windows.Threading.DispatcherTimer timer;
+        #endregion
 
-        public System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
-
-        private TaskbarItemProgressState progressState = TaskbarItemProgressState.None;
-        private double progressValue = 0;
-
+        #region publics
         public Brush BarColor { get { return barColor; } set { barColor = value; NotifyPropertyChanged("BarColor"); } }
         public double BarMaxValue { get { return barMaxValue; } set { barMaxValue = Math.Round(value, 2); NotifyPropertyChanged("BarMaxValue"); } }
         public double BarValue { get { return barValue; } set { barValue = Math.Round(value,2); NotifyPropertyChanged("BarValue"); } }
@@ -345,7 +368,8 @@ namespace WorkTimeLogger
         public string BarText { get { return barText; } set { barText = value; NotifyPropertyChanged("BarText"); } }
         public TaskbarItemProgressState ProgressState { get { return progressState; } set { progressState = value; NotifyPropertyChanged("ProgressState"); } }
         public double ProgressValue { get { return progressValue; } set { progressValue = value; NotifyPropertyChanged("ProgressValue"); } }
-
+        #endregion 
+        //constructor
         public DailyProgress()
         {
             LinearGradientBrush wtbrush = new LinearGradientBrush();
@@ -385,10 +409,12 @@ namespace WorkTimeLogger
             barValue = barMaxValue/2;
             barColor = workTimeBrush;
 
+            timer = new System.Windows.Threading.DispatcherTimer();
             timer.Tick += timer_Tick;
             timer.Interval = new TimeSpan(0, 0, 1);
         }
 
+        //events
         void timer_Tick(object sender, EventArgs e)
         {
             seconds += 1;
@@ -402,7 +428,16 @@ namespace WorkTimeLogger
             }
             
         }
-
+        /// <summary>
+        /// updates current values with provided params
+        /// </summary>
+        /// <param name="dailyworktime">no. of daily working hours</param>
+        /// <param name="dailybreaktime">no. of daily break hours</param>
+        /// <param name="breakafter">after how many hours is a break mandatory</param>
+        /// <param name="currworktime">currently spent hours working</param>
+        /// <param name="currbreaktime">currently spent hours idling</param>
+        /// <param name="currsbreaktime">currently spent hours smoking</param>
+        /// <param name="currstatus">current status (working,idling,smoking,neither)</param>
         public void UpdateProgress(double dailyworktime, double dailybreaktime, double breakafter, double currworktime, double currbreaktime, double currsbreaktime, int currstatus)
         {
             bool overtime = false;
@@ -467,6 +502,11 @@ namespace WorkTimeLogger
             }
             ProgressValue = currworktime / barMaxValue;
         }
+        /// <summary>
+        /// starts a counter for break, how many time left for break 
+        /// </summary>
+        /// <param name="dailybreaktime">no. of daily break hours</param>
+        /// <param name="currbreaktime">currently spent hours idling</param>
         public void StartBreakCounter(double dailybreaktime, double currbreaktime)
         {
             BarColor = breakBrush;
@@ -486,26 +526,30 @@ namespace WorkTimeLogger
             
             timer.Start();
         }
-
     }
+    /// <summary>
+    /// contains historical data, for binding purposes
+    /// </summary>
     public class WorkTimeSurplus : WTLModel
     {
-        private DateTime dateFrom;
-        private DateTime dateTo;
+        #region privates
+        internal DateTime dateFrom;
+        internal DateTime dateTo;
+        internal double workTime;
+        internal double workPlanned;
+        internal ObservableCollection<SurplusEntry> surplusses;
+        #endregion
 
-        private double workTime;
-        private double workPlanned;
-
-        private ObservableCollection<SurplusEntry> surplusses;
-
+        #region publics
         public DateTime DateFrom { get { return dateFrom; } set { dateFrom = value; NotifyPropertyChanged("DateFrom"); } }
         public DateTime DateTo { get { return dateTo; } set { dateTo = value; NotifyPropertyChanged("DateTo"); } }
-
         public double WorkTime { get { return workTime; } set { workTime = value; NotifyPropertyChanged("WorkTime"); NotifyPropertyChanged("Surplus"); } }
         public double WorkPlanned { get { return workPlanned; } set { workPlanned = value; NotifyPropertyChanged("WorkPlanned"); NotifyPropertyChanged("Surplus"); } }
         public double Surplus { get { return Math.Round(workTime - workPlanned,2); } }
         public ObservableCollection<SurplusEntry> Surplusses { get { return surplusses; } set { surplusses = value; NotifyPropertyChanged("Surplusses"); } }
+        #endregion
 
+        //cosntructor
         public WorkTimeSurplus()
         {
             dateTo = DateTime.Today.AddDays(-1);
@@ -517,53 +561,57 @@ namespace WorkTimeLogger
             surplusses = new ObservableCollection<SurplusEntry>();
         }
     }
+    /// <summary>
+    /// viewmodel for mvvm pattern
+    /// </summary>
     public class WTLViewModel : WTLModel
     {
         #region privates
-        private Application currApp;
-        private Login currLogin;
-        private ProcessInformation currProcessInfo;
-        private UIElementInfo currUIElementInfo;
-        private Employee currEmployee;
-        private WorkTime currWorkTime;
-        private WorkTimeLedger lastLogEntry;
-        private List<Employee> employees;
-        private List<WorkTimeLedger> todaysLedgers;
-        private DateTime currentDate;
-        private int currentYear;
-        private double yearlyVacationDays;
-        private double remainingVacationDays;
-        private double daysofIllness;
-        private ObservableCollection<WorkTimeLedger> currentLedgers;
-        private ObservableCollection<VacationDay> vacationDays;
-        private int currentWeek;
-        private ObservableCollection<ShiftPlanEntry> shiftPlan;
-        private DailyProgress currProgress;
-        private WorkTimeSurplus currSurplus;
+        internal  Application currApp;
+        internal Login currLogin;
+        internal ProcessInformation currProcessInfo;
+        //private UIElementInfo currUIElementInfo;
+        internal Employee currEmployee;
+        internal WorkTime currWorkTime;
+        internal WorkTimeLedger lastLogEntry;
+        internal List<Employee> employees;
+        internal List<WorkTimeLedger> todaysLedgers;
+        internal DateTime currentDate;
+        internal int currentYear;
+        internal double yearlyVacationDays;
+        internal double remainingVacationDays;
+        internal double daysofIllness;
+        internal ObservableCollection<WorkTimeLedger> currentLedgers;
+        internal ObservableCollection<VacationDay> vacationDays;
+        internal int currentWeek;
+        internal ObservableCollection<ShiftPlanEntry> shiftPlan;
+        internal DailyProgress currProgress;
+        internal WorkTimeSurplus currSurplus;
+        #endregion
 
-        #endregion
         #region relaycommands
-        RelayCommand loginCommand;
-        RelayCommand changePassCommand;
-        RelayCommand getVacationCommand;
-        RelayCommand getShiftPlanCommand;
-        RelayCommand getSurplusCommand;
-        RelayCommand setDefaultBreaksCommand;
-        RelayCommand exitCommand;
-        RelayCommand startDayCommand;
-        RelayCommand endDayCommand;
-        RelayCommand startBreakCommand;
-        RelayCommand endBreakCommand;
-        RelayCommand startSmokingBreakCommand;
-        RelayCommand endSmokingBreakCommand;
-        RelayCommand getServerTimeCommand;
-        RelayCommand easyBreakCommand;
-        RelayCommand easySBreakCommand;
+        internal RelayCommand loginCommand;
+        internal RelayCommand changePassCommand;
+        internal RelayCommand getVacationCommand;
+        internal RelayCommand getShiftPlanCommand;
+        internal RelayCommand getSurplusCommand;
+        internal RelayCommand setDefaultBreaksCommand;
+        internal RelayCommand exitCommand;
+        internal RelayCommand startDayCommand;
+        internal RelayCommand endDayCommand;
+        internal RelayCommand startBreakCommand;
+        internal RelayCommand endBreakCommand;
+        internal RelayCommand startSmokingBreakCommand;
+        internal RelayCommand endSmokingBreakCommand;
+        internal RelayCommand getServerTimeCommand;
+        internal RelayCommand easyBreakCommand;
+        internal RelayCommand easySBreakCommand;
         #endregion
+
         #region public members
         public Login CurrLogin { get { return currLogin; } set { currLogin = value; this.NotifyPropertyChanged("CurrLogin"); } }
         public ProcessInformation CurrProcessInfo { get { return currProcessInfo; } set { currProcessInfo = value; this.NotifyPropertyChanged("CurrProcessInfo"); } }
-        public UIElementInfo CurrUIElementInfo { get { return currUIElementInfo; } set { currUIElementInfo = value; this.NotifyPropertyChanged("CurrUIElementInfo"); } }
+        //public UIElementInfo CurrUIElementInfo { get { return currUIElementInfo; } set { currUIElementInfo = value; this.NotifyPropertyChanged("CurrUIElementInfo"); } }
         public Employee CurrEmployee { get { return currEmployee; } 
             set 
             { 
@@ -614,6 +662,7 @@ namespace WorkTimeLogger
         public DailyProgress CurrProgress { get { return currProgress; } set { currProgress = value; NotifyPropertyChanged("CurrProgress"); } }
         public WorkTimeSurplus CurrSurplus { get { return currSurplus; } set { currSurplus = value; NotifyPropertyChanged("CurrSurplus"); } }
         #endregion
+
         #region icommands
         public ICommand LoginCommand
         {
@@ -809,13 +858,13 @@ namespace WorkTimeLogger
         }
         #endregion
 
-
+        #region constructors
         public WTLViewModel(Application app) : this(app,new string[0]) { }
         public WTLViewModel(Application app,string[] startupArgs)
         {
             currApp = app;
 
-            currUIElementInfo = new UIElementInfo();
+            //currUIElementInfo = new UIElementInfo();
 
             currProcessInfo = new ProcessInformation();
 
@@ -846,8 +895,9 @@ namespace WorkTimeLogger
             this.CurrentLedgers.CollectionChanged += currentLedgers_CollectionChanged;
             
         }
+        #endregion
 
-        #region Methods
+        //events
         void currentLedgers_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             if (e.Action!= System.Collections.Specialized.NotifyCollectionChangedAction.Remove)
@@ -877,7 +927,13 @@ namespace WorkTimeLogger
                 UpdateSegments(null);
             }
         }
-        private void ProcessStartupArgs(string[] startupArgs)
+
+        #region internal Methods
+        /// <summary>
+        /// processing of provided startup arguments
+        /// </summary>
+        /// <param name="startupArgs">startup arguments</param>
+        internal void ProcessStartupArgs(string[] startupArgs)
         {
             foreach (string arg in startupArgs)
             {
@@ -891,7 +947,11 @@ namespace WorkTimeLogger
                 }
             }
         }
-        private void ProcessSimpleStartupArg(string arg)
+        /// <summary>
+        /// processing of one simple startup argument (containing no composite argument)
+        /// </summary>
+        /// <param name="arg">current argument</param>
+        internal void ProcessSimpleStartupArg(string arg)
         {
             switch (arg)
             {
@@ -932,7 +992,11 @@ namespace WorkTimeLogger
                     break;
             }
         }
-        private void ProcessComplexStartupArg(string arg)
+        /// <summary>
+        /// processing of one complex startup argument (containing argument and value, divided by "=")
+        /// </summary>
+        /// <param name="arg">current composite argument</param>
+        internal void ProcessComplexStartupArg(string arg)
         {
             string argtype = arg.Substring(0, arg.IndexOf("=")).ToUpper();
             string argvalue = arg.Substring(arg.IndexOf("=") + 1);
@@ -943,11 +1007,22 @@ namespace WorkTimeLogger
                 case "PASSWORD": this.currLogin.Password = argvalue; break;
             }
         }
-        private void SetCurrLogin(string userid, string password)
+        /// <summary>
+        /// sets current login
+        /// </summary>
+        /// <param name="userid">user id </param>
+        /// <param name="password">password</param>
+        internal void SetCurrLogin(string userid, string password)
         {
             SetCurrLogin(userid, password, false);
         }
-        private void SetCurrLogin(string userid, string password, bool overrideexisting)
+        /// <summary>
+        /// sets current login
+        /// </summary>
+        /// <param name="userid">user id</param>
+        /// <param name="password">password</param>
+        /// <param name="overrideexisting">override if allready exits</param>
+        internal void SetCurrLogin(string userid, string password, bool overrideexisting)
         {
             if (CurrLogin == null | overrideexisting)
             {
@@ -977,7 +1052,10 @@ namespace WorkTimeLogger
                 }
             }
         }
-        private void CheckBtnFontBold()
+        /// <summary>
+        /// checks if a button should be shown with a bold font
+        /// </summary>
+        internal void CheckBtnFontBold()
         { 
             CurrProcessInfo.BtnStartWorkDayBold = (lastLogEntry.LogType=="Logout" & lastLogEntry.LogSubtype=="WorkDay");
             CurrProcessInfo.BtnEndWorkDayBold = (lastLogEntry.LogType=="Login");
@@ -986,7 +1064,10 @@ namespace WorkTimeLogger
             CurrProcessInfo.BtnStartSmokeBreakBold = (lastLogEntry.LogType=="Login");
             CurrProcessInfo.BtnEndSmokeBreakBold = (lastLogEntry.LogType == "Logout" & lastLogEntry.LogSubtype == "SmokeBreak");
         }
-        private void SetOverlayIcon()
+        /// <summary>
+        /// sets the overlay icon in windows Taskbar
+        /// </summary>
+        internal void SetOverlayIcon()
         {
             BitmapImage bi = null;
 
@@ -1005,7 +1086,11 @@ namespace WorkTimeLogger
 
             CurrProcessInfo.OverlayIcon = bi;
         }
-        private void SetCurrentLedgers(List<WorkTimeLedger> ledgers)
+        /// <summary>
+        /// sets the CurrentLedgers or retrieves them, if null provided
+        /// </summary>
+        /// <param name="ledgers">List of WorkTimeLedger entries</param>
+        internal void SetCurrentLedgers(List<WorkTimeLedger> ledgers)
         {
             if (CurrEmployee.StaffNo == null)
             {
@@ -1024,54 +1109,20 @@ namespace WorkTimeLogger
             this.CurrentLedgers = new ObservableCollection<WorkTimeLedger>(ledgers);
             this.CurrentLedgers.CollectionChanged += currentLedgers_CollectionChanged;
         }
-        private void SetErrorMessage(string error)
+        /// <summary>
+        /// sets the bindable ErrorMessage property
+        /// </summary>
+        /// <param name="error">new error message</param>
+        internal void SetErrorMessage(string error)
         {
             currProcessInfo.ErrorMessage = error;
         }
-        public bool PerformLogin()
-        {
-            SetErrorMessage("");
-
-            if (!CurrLogin.isComplete)
-            {
-                return false;
-            }
-
-            bool result = GetUpdatedServerTime(false);
-
-            if (result)
-            {
-                currProcessInfo.LoggedIn = true;
-                currProcessInfo.SelectedTab = 1;
-
-                bool ok = false;
-
-                if (CurrProcessInfo.CustomTimes | CurrProcessInfo.SelectEmployee)
-                {
-                    ok = GetEmployeeList("");
-                }
-                else
-                {
-                    ok = GetEmployeeList(CurrLogin.UserID);
-
-                    if (CurrProcessInfo.isManager & !CurrProcessInfo.CustomTimes & !CurrProcessInfo.UseWindowsAuthentication)
-                    {
-                        ok = GetEmployeeList("");
-                        currProcessInfo.DeleteAllowed = true;
-                        currProcessInfo.StayOpen = true;
-                        currProcessInfo.CustomTimes = true;
-                        currProcessInfo.SelectEmployee = true;
-                    }
-                }
-            }
-            else
-            {
-                SetErrorMessage(currUIElementInfo.ErrorLoginInvalid);
-            }
-
-            return result;
-        }
-        private bool GetServerTime(ref DateTime serverTime)
+        /// <summary>
+        /// retrieves the ServerTime via WTL_Service
+        /// </summary>
+        /// <param name="serverTime">set to ServerTime if successfully retrieved</param>
+        /// <returns>true if succeeded</returns>
+        internal bool GetServerTime(ref DateTime serverTime)
         {
             bool result = false;
 
@@ -1094,7 +1145,11 @@ namespace WorkTimeLogger
             
             return result;
         }
-        private bool ChangePassword()
+        /// <summary>
+        /// changes password via WTL_Service
+        /// </summary>
+        /// <returns>true if changed successfully</returns>
+        internal bool ChangePassword()
         {
             bool result = false;
 
@@ -1134,32 +1189,13 @@ namespace WorkTimeLogger
 
             return result;
         }
-        public void PerformSilentProcessing()
-        {
-            if (!CurrLogin.isComplete | !CurrProcessInfo.SilentProcessing)
-            {
-                return;
-            }
-
-            switch (CurrProcessInfo.SilentWorkToDo)
-            {
-                case "STARTDAY": SetWorkTime(LogTypes.DayStart); break;
-                case "ENDDAY": SetWorkTime(LogTypes.DayEnd); break;
-                case "STARTBREAK": SetWorkTime(LogTypes.BreakStart); break;
-                case "ENDBREAK": SetWorkTime(LogTypes.DayEnd); break;
-                case "STARTSBREAK": SetWorkTime(LogTypes.SmokingBreakStart); break;
-                case "ENDSBREAK": SetWorkTime(LogTypes.SmokingBreakEnd); break;
-                default:
-                    break;
-            }
-        }
-        private bool GetEmployeeList(string employeeNoFilter)
+        internal bool GetEmployeeList(string employeeNoFilter)
         {
             bool result = false;
 
             SetErrorMessage("");
 
-            //try
+            try
             {
                 WTL_Service.WTL_PortClient wtl = new WTL_Service.WTL_PortClient("WTL_Port", Properties.Settings.Default.ServiceURL);
                 wtl.ClientCredentials.Windows.ClientCredential = new NetworkCredential(Properties.Settings.Default.ServiceLogin, Properties.Settings.Default.ServicePassword);
@@ -1189,15 +1225,15 @@ namespace WorkTimeLogger
                     }
                 }
             }
-            //catch (Exception e)
-            //{
-            //    SetErrorMessage(e.Message);
-            //    return false;
-            //}
+            catch (Exception e)
+            {
+                SetErrorMessage(e.Message);
+                return false;
+            }
             
             return result;
         }
-        private bool SetWorkTime(LogTypes logtype)
+        internal bool SetWorkTime(LogTypes logtype)
         {
             bool result = false;
 
@@ -1268,7 +1304,7 @@ namespace WorkTimeLogger
             }
             return result;
         }
-        private void SetEasyBreak()
+        internal void SetEasyBreak()
         {
             bool cust = currProcessInfo.CustomTimes;
             currProcessInfo.CustomTimes = true;
@@ -1285,7 +1321,7 @@ namespace WorkTimeLogger
             currProcessInfo.GodSlayer = false;
             currProcessInfo.CustomTimes = cust;
         }
-        private void SetEasySBreak()
+        internal void SetEasySBreak()
         {
             bool cust = currProcessInfo.CustomTimes;
             currProcessInfo.CustomTimes = true;
@@ -1302,7 +1338,7 @@ namespace WorkTimeLogger
             currProcessInfo.GodSlayer = false;
             currProcessInfo.CustomTimes = cust;
         }
-        private bool DeleteWorkTime(WorkTimeLedger ledger)
+        internal bool DeleteWorkTime(WorkTimeLedger ledger)
         {
             bool result = false;
 
@@ -1323,7 +1359,7 @@ namespace WorkTimeLogger
             }
             return result;
         }
-        private bool GetLastLogEntry()
+        internal bool GetLastLogEntry()
         {
             bool result = false;
 
@@ -1359,7 +1395,7 @@ namespace WorkTimeLogger
             
             return result;
         }
-        private bool GetWorkTimeLedgers(DateTime date, out List<WorkTimeLedger> ledgers)
+        internal bool GetWorkTimeLedgers(DateTime date, out List<WorkTimeLedger> ledgers)
         {
             bool result = false;
 
@@ -1395,7 +1431,7 @@ namespace WorkTimeLogger
 
             return result;
         }
-        private bool GetVacationDays(int year, out ObservableCollection<VacationDay> vacations)
+        internal bool GetVacationDays(int year, out ObservableCollection<VacationDay> vacations)
         {
             bool result = false;
 
@@ -1435,12 +1471,12 @@ namespace WorkTimeLogger
 
             return result;
         }
-        private void GetVacations()
+        internal void GetVacations()
         {
             this.GetVacationDays(this.currentYear, out this.vacationDays);
             NotifyPropertyChanged("VacationDays");
         }
-        private void UpdateSegments(List<WorkTimeLedger> ledgers)
+        internal void UpdateSegments(List<WorkTimeLedger> ledgers)
         {
             if (ledgers == null)
             {
@@ -1452,7 +1488,7 @@ namespace WorkTimeLogger
 
             TodaysLedgers = ledgers;
         }
-        private void CalcSegments()
+        internal void CalcSegments()
         {
             DateTime lastTime = DateTime.Parse(string.Format("{0} 00:00:00", CurrentDate.ToShortDateString()));
             DateTime currTime;
@@ -1558,7 +1594,7 @@ namespace WorkTimeLogger
                 CurrProgress.StartBreakCounter(currEmployee.DailyBreakTime, breaks);    
             }
         }
-        private bool GetShiftPlanEntries(int year, int week, out ObservableCollection<ShiftPlanEntry> plan)
+        internal bool GetShiftPlanEntries(int year, int week, out ObservableCollection<ShiftPlanEntry> plan)
         {
             bool result = false;
 
@@ -1597,12 +1633,12 @@ namespace WorkTimeLogger
 
             return result;
         }
-        private void GetShiftPlan()
+        internal void GetShiftPlan()
         {
             this.GetShiftPlanEntries(this.currentYear, this.currentWeek, out this.shiftPlan);
             NotifyPropertyChanged("ShiftPlan");
         }
-        private bool GetSurplus()
+        internal bool GetSurplus()
         {
             bool result = false;
 
@@ -1653,7 +1689,7 @@ namespace WorkTimeLogger
 
             return result;
         }
-        private void SetDefaultBreaks()
+        internal void SetDefaultBreaks()
         {
             bool result = false;
 
@@ -1677,7 +1713,7 @@ namespace WorkTimeLogger
                 SetErrorMessage(e.Message);
             }
         }
-        private bool GetUpdatedServerTime(bool updateSegments)
+        internal bool GetUpdatedServerTime(bool updateSegments)
         {
             DateTime dt = new DateTime();
 
@@ -1696,18 +1732,91 @@ namespace WorkTimeLogger
             return result;
         }
         #endregion
+
+        #region public Methods
+        public bool PerformLogin()
+        {
+            SetErrorMessage("");
+
+            if (!CurrLogin.isComplete)
+            {
+                return false;
+            }
+
+            bool result = GetUpdatedServerTime(false);
+
+            if (result)
+            {
+                currProcessInfo.LoggedIn = true;
+                currProcessInfo.SelectedTab = 1;
+
+                bool ok = false;
+
+                if (CurrProcessInfo.CustomTimes | CurrProcessInfo.SelectEmployee)
+                {
+                    ok = GetEmployeeList("");
+                }
+                else
+                {
+                    ok = GetEmployeeList(CurrLogin.UserID);
+
+                    if (CurrProcessInfo.isManager & !CurrProcessInfo.CustomTimes & !CurrProcessInfo.UseWindowsAuthentication)
+                    {
+                        ok = GetEmployeeList("");
+                        currProcessInfo.DeleteAllowed = true;
+                        currProcessInfo.StayOpen = true;
+                        currProcessInfo.CustomTimes = true;
+                        currProcessInfo.SelectEmployee = true;
+                    }
+                }
+            }
+            else
+            {
+                //SetErrorMessage(currUIElementInfo.ErrorLoginInvalid);
+                // TODO Fix this
+                SetErrorMessage("Login fehlerhaft");
+            }
+
+            return result;
+        }
+        public void PerformSilentProcessing()
+        {
+            if (!CurrLogin.isComplete | !CurrProcessInfo.SilentProcessing)
+            {
+                return;
+            }
+
+            switch (CurrProcessInfo.SilentWorkToDo)
+            {
+                case "STARTDAY": SetWorkTime(LogTypes.DayStart); break;
+                case "ENDDAY": SetWorkTime(LogTypes.DayEnd); break;
+                case "STARTBREAK": SetWorkTime(LogTypes.BreakStart); break;
+                case "ENDBREAK": SetWorkTime(LogTypes.DayEnd); break;
+                case "STARTSBREAK": SetWorkTime(LogTypes.SmokingBreakStart); break;
+                case "ENDSBREAK": SetWorkTime(LogTypes.SmokingBreakEnd); break;
+                default:
+                    break;
+            }
+        }
+        #endregion
     }
     #endregion
 
     #region datamodels
+    /// <summary>
+    /// wrapper class for autogenerated WTL_Service.Staff
+    /// </summary>
     public class Employee : WTL_Service.Staff
     {
+        #region additional fields
         public string FullName { get { return String.Format("{0} {1}", FirstName, LastName); } }
         public bool SmokingBreakEnabled { get; set; }
         public double DailyWorkingTime { get; set; }
         public double DailyBreakTime { get; set; }
         public double BreakAfterTime { get; set; }
+        #endregion
 
+        #region constructors
         public Employee() { }
         public Employee(WTL_Service.Staff staff)
         {
@@ -1728,9 +1837,14 @@ namespace WorkTimeLogger
             LoginMessage = staff.LoginMessage;
             LogoutMessage = staff.LogoutMessage;
         }
+        #endregion
     }
+    /// <summary>
+    /// wrapper class for autogenerated WTL_Service.WorkTime
+    /// </summary>
     public class WorkTimeLedger : WTL_Service.WorkTime
     {
+        #region additional fields
         public bool Skipped { get; set; }
         public string LogTypeString 
         { 
@@ -1738,6 +1852,7 @@ namespace WorkTimeLogger
             {
                 string result = "";
 
+                // TODO fix this 
                 switch (LogType+LogSubtype)
                 {
                     case "LoginWorkDay": result = "Arbeitstag Anfang"; break;
@@ -1753,12 +1868,12 @@ namespace WorkTimeLogger
                 return result;
             } 
         }
-
         public string LogDate { get; set; }
         public string LogTime { get; set; }
-
         public string LogText { get { return String.Format("{0}\n{1}\n{2}", LogDate, LogTime, LogTypeString); } }
+        #endregion
 
+        #region constructors
         public WorkTimeLedger(){ }
         public WorkTimeLedger(WTL_Service.WorkTime wtl)
         {
@@ -1772,9 +1887,14 @@ namespace WorkTimeLogger
             this.Skipped = wtl.Skip=="Yes";
             this.StaffID = wtl.StaffID;
         }
+        #endregion
     }
+    /// <summary>
+    /// wrapper class for autogenerated WTL_Service.VacationDay
+    /// </summary>
     public class VacationDay : WTL_Service.VacationDay
     {
+        #region additional fields
         public string FormatedWorkDate 
         { 
             get 
@@ -1789,7 +1909,9 @@ namespace WorkTimeLogger
         }
         public bool isHalfDay { get { return HalfDay == "Yes"; } }
         public bool isPosted { get { return Posted == "Yes"; } }
+        #endregion
 
+        //constructor
         public VacationDay(WTL_Service.VacationDay day)
         {
             this.Date = day.Date;
@@ -1798,10 +1920,15 @@ namespace WorkTimeLogger
             this.Posted = day.Posted;
         }
     }
+    /// <summary>
+    /// wrapper class for autogenerated WTL_Service.WeekDay
+    /// </summary>
     public class ShiftPlanDay : WTL_Service.WeekDay
     {
+        //additional 
         public string ColorName { get; set; }
 
+        #region constructors
         public ShiftPlanDay()
         {
             this.Date = "";
@@ -1837,9 +1964,14 @@ namespace WorkTimeLogger
             this.WorkShift = day.WorkShift;
             this.WorkTime = day.WorkTime;
         }
+        #endregion
     }
+    /// <summary>
+    /// wrapper class for autogenerated WTL_Service.PlanEntry 
+    /// </summary>
     public class ShiftPlanEntry : WTL_Service.PlanEntry 
     {
+        #region additional fields
         public ShiftPlanDay Monday { get; set; }
         public ShiftPlanDay Tuesday { get; set; }
         public ShiftPlanDay Wednesday { get; set; }
@@ -1847,7 +1979,8 @@ namespace WorkTimeLogger
         public ShiftPlanDay Friday { get; set; }
         public ShiftPlanDay Saturday { get; set; }
         public ShiftPlanDay Sunday { get; set; }
-
+        #endregion
+        //constructor
         public ShiftPlanEntry(WTL_Service.PlanEntry entry)
         {
             this.FullName = entry.FullName;
@@ -1880,11 +2013,13 @@ namespace WorkTimeLogger
                 }
             }
         }
-
     }
+    /// <summary>
+    /// wrapper class for autogenerated WTL_Service.Surplus
+    /// </summary>
     public class SurplusEntry : WTL_Service.Surplus
     {
-
+        //additional field
         public double WorkHoursSurplus { 
             get 
             {
@@ -1898,6 +2033,7 @@ namespace WorkTimeLogger
                 return 0; 
             } 
         }
+        //constructor
         public SurplusEntry(WTL_Service.Surplus surplus)
         {
             DateTime dt = DateTime.Parse(surplus.Date);
@@ -1913,6 +2049,9 @@ namespace WorkTimeLogger
     #endregion
 
     #region enums
+    /// <summary>
+    /// types of WorkTime Ledgers
+    /// </summary>
     public enum LogTypes { DayStart, DayEnd, BreakStart, BreakEnd, SmokingBreakStart, SmokingBreakEnd }
     #endregion
 

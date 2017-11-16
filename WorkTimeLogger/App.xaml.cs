@@ -18,6 +18,11 @@ namespace WorkTimeLogger
     /// </summary>
     public partial class App : Application
     {
+        /// <summary>
+        /// creates viewmodel, handles startup tasks and shows mainwindow if needed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             WTLViewModel model = new WTLViewModel(this,e.Args);
@@ -48,6 +53,9 @@ namespace WorkTimeLogger
             }
             mw.Show();
         }
+        /// <summary>
+        /// creates a Windows JumpList for common tasks
+        /// </summary>
         public static void CreateJumpList()
         {
             var myResourceDictionary = new ResourceDictionary();

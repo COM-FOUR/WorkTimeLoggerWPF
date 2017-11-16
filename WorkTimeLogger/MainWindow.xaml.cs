@@ -26,6 +26,7 @@ namespace WorkTimeLogger
             InitializeComponent();
         }
 
+        //provides bindable value and handles scaling for MainWindow
         #region ScaleValue Depdency Property
         public static readonly DependencyProperty ScaleValueProperty = DependencyProperty.Register("ScaleValue", typeof(double), typeof(MainWindow), new UIPropertyMetadata(1.0, new PropertyChangedCallback(OnScaleValueChanged), new CoerceValueCallback(OnCoerceScaleValue)));
 
@@ -70,7 +71,6 @@ namespace WorkTimeLogger
                 SetValue(ScaleValueProperty, value);
             }
         }
-        #endregion
 
         private void CalculateScale()
         {
@@ -84,5 +84,6 @@ namespace WorkTimeLogger
         {
             CalculateScale();
         }
+        #endregion
     }
 }

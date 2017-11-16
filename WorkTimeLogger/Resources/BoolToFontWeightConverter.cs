@@ -12,6 +12,9 @@ using System.Windows.Shell;
 
 namespace WorkTimeLogger.Resources
 {
+    /// <summary>
+    /// converter from boolean to FontWeight, for binding purposes
+    /// </summary>
     public class BoolToFontWeightConverter : DependencyObject, IValueConverter
     {
         public object Convert(object value, Type targetType,
