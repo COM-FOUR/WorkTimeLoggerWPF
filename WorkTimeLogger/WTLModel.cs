@@ -1121,7 +1121,7 @@ namespace WorkTimeLogger
         /// retrieves the ServerTime via WTL_Service
         /// </summary>
         /// <param name="serverTime">set to ServerTime if successfully retrieved</param>
-        /// <returns>true if succeeded</returns>
+        /// <returns>true, if succeeded</returns>
         internal bool GetServerTime(ref DateTime serverTime)
         {
             bool result = false;
@@ -1189,6 +1189,11 @@ namespace WorkTimeLogger
 
             return result;
         }
+        /// <summary>
+        /// get list of Employees via WTL_Service
+        /// </summary>
+        /// <param name="employeeNoFilter">filter for Staff No., if provided, only the own Employee-Record will be retrieved</param>
+        /// <returns>true, if succeeded</returns>
         internal bool GetEmployeeList(string employeeNoFilter)
         {
             bool result = false;
@@ -1233,6 +1238,11 @@ namespace WorkTimeLogger
             
             return result;
         }
+        /// <summary>
+        /// creates a WorkTimeLedger via WTL_Service
+        /// </summary>
+        /// <param name="logtype">type of Ledger</param>
+        /// <returns>true, if succeeded</returns>
         internal bool SetWorkTime(LogTypes logtype)
         {
             bool result = false;
@@ -1304,6 +1314,9 @@ namespace WorkTimeLogger
             }
             return result;
         }
+        /// <summary>
+        /// directly creates a 30min Break via WTL_Service
+        /// </summary>
         internal void SetEasyBreak()
         {
             bool cust = currProcessInfo.CustomTimes;
@@ -1321,6 +1334,9 @@ namespace WorkTimeLogger
             currProcessInfo.GodSlayer = false;
             currProcessInfo.CustomTimes = cust;
         }
+        /// <summary>
+        /// directly creates a 30min SmokingBreak via WTL_Service
+        /// </summary>
         internal void SetEasySBreak()
         {
             bool cust = currProcessInfo.CustomTimes;
@@ -1338,6 +1354,11 @@ namespace WorkTimeLogger
             currProcessInfo.GodSlayer = false;
             currProcessInfo.CustomTimes = cust;
         }
+        /// <summary>
+        /// deletes a specific WorkTimeLedger via WTL_Service
+        /// </summary>
+        /// <param name="ledger">WorkTimeLedger to be deleted</param>
+        /// <returns>true, if succeeded</returns>
         internal bool DeleteWorkTime(WorkTimeLedger ledger)
         {
             bool result = false;
@@ -1359,6 +1380,10 @@ namespace WorkTimeLogger
             }
             return result;
         }
+        /// <summary>
+        /// retrieves the last WorkTimeLedger via WTL_Service
+        /// </summary>
+        /// <returns>true, if succeeded</returns>
         internal bool GetLastLogEntry()
         {
             bool result = false;
@@ -1395,6 +1420,12 @@ namespace WorkTimeLogger
             
             return result;
         }
+        /// <summary>
+        /// retrieves a list of WorkTimeLedgers for a given date, via WTL_Service
+        /// </summary>
+        /// <param name="date">date for which WorkTimeLedger should be retrieved</param>
+        /// <param name="ledgers">retrieved WorkTimeLedgers</param>
+        /// <returns>true, if succeeded</returns>
         internal bool GetWorkTimeLedgers(DateTime date, out List<WorkTimeLedger> ledgers)
         {
             bool result = false;
@@ -1431,6 +1462,12 @@ namespace WorkTimeLogger
 
             return result;
         }
+        /// <summary>
+        /// retrieves a list of VacationDays for a given year, via WTL_Service
+        /// </summary>
+        /// <param name="year">year fow which VacationDays should be retrieved</param>
+        /// <param name="vacations">retrieved VacationDays</param>
+        /// <returns>true, if succeeded</returns>
         internal bool GetVacationDays(int year, out ObservableCollection<VacationDay> vacations)
         {
             bool result = false;
@@ -1471,11 +1508,18 @@ namespace WorkTimeLogger
 
             return result;
         }
+        /// <summary>
+        /// warpper for GetVacationDays(int year, out ObservableCollection<VacationDay> vacations)
+        /// </summary>
         internal void GetVacations()
         {
             this.GetVacationDays(this.currentYear, out this.vacationDays);
             NotifyPropertyChanged("VacationDays");
         }
+        /// <summary>
+        /// updates current WorkTimeLedgers, with provided, or if null, retrieves them
+        /// </summary>
+        /// <param name="ledgers">new list of WorkTimeLedgers to be set</param>
         internal void UpdateSegments(List<WorkTimeLedger> ledgers)
         {
             if (ledgers == null)
@@ -1488,6 +1532,9 @@ namespace WorkTimeLogger
 
             TodaysLedgers = ledgers;
         }
+        /// <summary>
+        /// calculates sums of worktime,breaks and smokingbreaks, based on TodaysLedgers
+        /// </summary>
         internal void CalcSegments()
         {
             DateTime lastTime = DateTime.Parse(string.Format("{0} 00:00:00", CurrentDate.ToShortDateString()));
@@ -1594,6 +1641,13 @@ namespace WorkTimeLogger
                 CurrProgress.StartBreakCounter(currEmployee.DailyBreakTime, breaks);    
             }
         }
+        /// <summary>
+        /// retrieves List of ShiftPlanEntry, based on year and week, via WTL_service
+        /// </summary>
+        /// <param name="year">year for ShiftPlanEntries, to be retrieved</param>
+        /// <param name="week">week for ShiftPlanEntries, to be retrieved</param>
+        /// <param name="plan">retrieved list of ShiftPlanEntries</param>
+        /// <returns>true, if success</returns>
         internal bool GetShiftPlanEntries(int year, int week, out ObservableCollection<ShiftPlanEntry> plan)
         {
             bool result = false;
@@ -1633,11 +1687,18 @@ namespace WorkTimeLogger
 
             return result;
         }
+        /// <summary>
+        /// wrapper for GetShiftPlanEntries(int year, int week, out ObservableCollection<ShiftPlanEntry> plan)
+        /// </summary>
         internal void GetShiftPlan()
         {
             this.GetShiftPlanEntries(this.currentYear, this.currentWeek, out this.shiftPlan);
             NotifyPropertyChanged("ShiftPlan");
         }
+        /// <summary>
+        /// retrieves list of surplus worktime via WTL_Service
+        /// </summary>
+        /// <returns>true, if succeeded</returns>
         internal bool GetSurplus()
         {
             bool result = false;
@@ -1689,6 +1750,9 @@ namespace WorkTimeLogger
 
             return result;
         }
+        /// <summary>
+        /// creates break entries for the daily break time
+        /// </summary>
         internal void SetDefaultBreaks()
         {
             bool result = false;
@@ -1713,6 +1777,11 @@ namespace WorkTimeLogger
                 SetErrorMessage(e.Message);
             }
         }
+        /// <summary>
+        /// retrieves ServerTime via WTL_Service
+        /// </summary>
+        /// <param name="updateSegments">update segments, if true</param>
+        /// <returns>true, if succeeded</returns>
         internal bool GetUpdatedServerTime(bool updateSegments)
         {
             DateTime dt = new DateTime();
@@ -1734,6 +1803,10 @@ namespace WorkTimeLogger
         #endregion
 
         #region public Methods
+        /// <summary>
+        /// performs login via WTL_Service, if credentials provided. Retrieves employeelist and sets internal variables
+        /// </summary>
+        /// <returns>true, if succeeded</returns>
         public bool PerformLogin()
         {
             SetErrorMessage("");
@@ -1779,6 +1852,9 @@ namespace WorkTimeLogger
 
             return result;
         }
+        /// <summary>
+        /// performs tasks, provided by startup argumetns, without showing ui 
+        /// </summary>
         public void PerformSilentProcessing()
         {
             if (!CurrLogin.isComplete | !CurrProcessInfo.SilentProcessing)
