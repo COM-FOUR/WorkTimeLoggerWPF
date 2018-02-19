@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Globalization;
 using System.Windows.Shell;
+using System.Diagnostics;
 
 //using System.Drawing;
 
@@ -215,6 +216,18 @@ namespace WorkTimeLogger
         public bool BtnStartSmokeBreakBold { get { return btnStartSmokeBreakBold; } set { btnStartSmokeBreakBold = value; NotifyPropertyChanged("BtnStartSmokeBreakBold"); } }
         public bool BtnEndSmokeBreakBold { get { return btnEndSmokeBreakBold; } set { btnEndSmokeBreakBold = value; NotifyPropertyChanged("BtnEndSmokeBreakBold"); } }
         public ImageSource OverlayIcon { get { return overlayIcon; } set { overlayIcon = value; NotifyPropertyChanged("OverlayIcon"); } }
+        #endregion
+
+        #region Methods
+        public bool isTeamViewerSession()
+        {
+            bool result = false;
+
+            Process[] process = Process.GetProcessesByName("TeamViewer_Desktop");
+            result = (process.Count() > 0);
+            
+            return result;
+        }
         #endregion
 
         //constructor
@@ -1271,10 +1284,15 @@ namespace WorkTimeLogger
             }
 
             string creator = "Staff";
-
+            
             if (CurrProcessInfo.CustomTimes && !CurrProcessInfo.GodSlayer)
             {
                 creator = "Manual";
+            }
+
+            if (CurrProcessInfo.isTeamViewerSession())
+            {
+                creator = "StaffTV";
             }
 
             try

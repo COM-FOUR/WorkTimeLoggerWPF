@@ -175,7 +175,7 @@
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
-                        <Button Margin="5" Command="{Binding SetDefaultBreaksCommand}" Content="{DynamicResource BtnlblSetBreaks}"/>
+                        <!--Button Margin="5" Command="{Binding SetDefaultBreaksCommand}" Content="{DynamicResource BtnlblSetBreaks}"/>-->
                     </StackPanel>
                     <DataGrid CanUserAddRows="False" CanUserDeleteRows="{Binding CurrProcessInfo.CustomTimes}" ItemsSource="{Binding CurrentLedgers, Mode=TwoWay}" AutoGenerateColumns="False" AlternatingRowBackground="Gainsboro"  AlternationCount="2" SelectionMode="Single" EnableRowVirtualization="False">
                         <DataGrid.Columns>
