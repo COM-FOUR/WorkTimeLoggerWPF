@@ -428,6 +428,11 @@ namespace WorkTimeLogger
         }
 
         //events
+        /// <summary>
+        /// Timer event, for monitoring break durations and updating progressbar
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void timer_Tick(object sender, EventArgs e)
         {
             seconds += 1;
@@ -438,6 +443,8 @@ namespace WorkTimeLogger
             if (BarValue>BarMaxValue)
             {
                 BarColor = overTimeBrush;
+                ProgressState = TaskbarItemProgressState.Error;
+
             }
             
         }
