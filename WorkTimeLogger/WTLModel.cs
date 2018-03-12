@@ -913,7 +913,6 @@ namespace WorkTimeLogger
             }
 
             this.CurrentLedgers.CollectionChanged += currentLedgers_CollectionChanged;
-            
         }
         #endregion
 

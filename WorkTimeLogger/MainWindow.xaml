@@ -29,6 +29,7 @@
             <GradientStop Color="Gray" Offset="0.6"/>
             <GradientStop Color="LightSlateGray" Offset="0.1"/>
         </LinearGradientBrush>
+        <!--<ImageBrush ImageSource="pack://application:,,,/WorkTimeLogger;component/Images/pink.png" Stretch="UniformToFill"/>-->
     </Window.Background>
     <Window.TaskbarItemInfo>
         <TaskbarItemInfo x:Name="tbii" ProgressState="{Binding CurrProgress.ProgressState}" ProgressValue="{Binding CurrProgress.ProgressValue}" Description="{StaticResource WindowTitle}" Overlay="{Binding CurrProcessInfo.OverlayIcon}">
@@ -39,17 +40,16 @@
                 <ThumbButtonInfo Command="{Binding EndDayCommand}" Visibility="{Binding CurrProcessInfo.BtnEndWorkDayBold,Converter={StaticResource BoolToVisConverter}}" ImageSource="pack://application:,,,/WorkTimeLogger;component/Images/button_stop.png" Description="{DynamicResource BtnlblEndDay}"/>
                 <ThumbButtonInfo Command="{Binding GetServerTimeCommand}" Visibility="{Binding CurrProcessInfo.LoggedIn,Converter={StaticResource BoolToVisConverter}}" ImageSource="pack://application:,,,/WorkTimeLogger;component/Images/button_update.png" Description="{DynamicResource BtnlblUpdate}"/>
             </TaskbarItemInfo.ThumbButtonInfos>
-            
         </TaskbarItemInfo>
     </Window.TaskbarItemInfo>
     <DockPanel Name="MainDockPanel" SizeChanged="MainDockPanel_SizeChanged">
-        <DockPanel.LayoutTransform>
+        <!--<DockPanel.LayoutTransform>
             <ScaleTransform x:Name="ApplicationScaleTransform"
                         CenterX="0"
                         CenterY="0"
                         ScaleX="{Binding ElementName=mw, Path=ScaleValue}"
                         ScaleY="{Binding ElementName=mw, Path=ScaleValue}" />
-        </DockPanel.LayoutTransform>
+        </DockPanel.LayoutTransform>-->
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Visibility="{Binding CurrProcessInfo.ErrorOcurred, Converter={StaticResource BoolToVisConverter}}">
             <StackPanel.Background>
                 <LinearGradientBrush>
@@ -62,7 +62,7 @@
         <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right">
             <Button Width="150" Height="30" Margin="5" Name="btnExit" Command="{Binding ExitCommand}" Content="{DynamicResource BtnlblExit}" IsCancel="True" Opacity="0.9"/>
         </StackPanel>
-        <TabControl SelectedIndex="{Binding CurrProcessInfo.SelectedTab}" Margin="5" Opacity="0.95">
+        <TabControl SelectedIndex="{Binding CurrProcessInfo.SelectedTab}" Margin="5" Opacity="0.80">
             <TabControl.Background>
                 <LinearGradientBrush>
                     <GradientStop Color="Gray" Offset="0.9"/>
