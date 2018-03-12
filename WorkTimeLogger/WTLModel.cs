@@ -607,6 +607,8 @@ namespace WorkTimeLogger
         internal ObservableCollection<ShiftPlanEntry> shiftPlan;
         internal DailyProgress currProgress;
         internal WorkTimeSurplus currSurplus;
+
+        internal object background;
         #endregion
 
         #region relaycommands
@@ -681,6 +683,8 @@ namespace WorkTimeLogger
         public ObservableCollection<ShiftPlanEntry> ShiftPlan { get { return shiftPlan; } set { shiftPlan = value; NotifyPropertyChanged("ShiftPlan"); } }
         public DailyProgress CurrProgress { get { return currProgress; } set { currProgress = value; NotifyPropertyChanged("CurrProgress"); } }
         public WorkTimeSurplus CurrSurplus { get { return currSurplus; } set { currSurplus = value; NotifyPropertyChanged("CurrSurplus"); } }
+
+        public object Background { get { return background; } set { background = value; NotifyPropertyChanged("Background"); } }
         #endregion
 
         #region icommands
@@ -913,6 +917,27 @@ namespace WorkTimeLogger
             }
 
             this.CurrentLedgers.CollectionChanged += currentLedgers_CollectionChanged;
+            
+            
+
+            switch (Properties.Settings.Default.BackgroundImage)
+            {
+                case "":
+                    LinearGradientBrush lgb = new LinearGradientBrush(new GradientStopCollection()
+                        { new GradientStop(Colors.Gray, 0.6), new GradientStop(Colors.LightSlateGray, 0.1) });
+                    background = lgb;
+                    break;
+                case "pussy" : background = new ImageBrush(new BitmapImage(new Uri(@"pack://application:,,,/WorkTimeLogger;component/Images/pink.png")));
+                    break;
+                case "cock":
+                    background = new ImageBrush(new BitmapImage(new Uri(@"pack://application:,,,/WorkTimeLogger;component/Images/military.png")));
+                    break;
+                default:
+                    background = new ImageBrush(new BitmapImage(new Uri(Properties.Settings.Default.BackgroundImage)));
+                    break;
+            }
+
+            //background = new ImageBrush(new BitmapImage(new Uri(@"pack://application:,,,/WorkTimeLogger;component/Images/military.png")));
         }
         #endregion
 

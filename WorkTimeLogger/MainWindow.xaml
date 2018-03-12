@@ -9,7 +9,8 @@
         Height="400" Width="530" 
         Icon="Images\time.ico" 
         Name="mw" 
-        FocusManager.FocusedElement="{Binding ElementName=UserBox}">
+        FocusManager.FocusedElement="{Binding ElementName=UserBox}"
+        Background="{Binding Background}">
     <!--<i:Interaction.Triggers>
         <i:EventTrigger EventName="Activated" >
             <i:InvokeCommandAction Command="{Binding GetServerTimeCommand}" />
@@ -24,13 +25,6 @@
             <res:BoolToFontWeightConverter x:Key="BoolToFontBoldConverter" />
         </ResourceDictionary>
     </Window.Resources>
-    <Window.Background>
-        <LinearGradientBrush>
-            <GradientStop Color="Gray" Offset="0.6"/>
-            <GradientStop Color="LightSlateGray" Offset="0.1"/>
-        </LinearGradientBrush>
-        <!--<ImageBrush ImageSource="pack://application:,,,/WorkTimeLogger;component/Images/pink.png" Stretch="UniformToFill"/>-->
-    </Window.Background>
     <Window.TaskbarItemInfo>
         <TaskbarItemInfo x:Name="tbii" ProgressState="{Binding CurrProgress.ProgressState}" ProgressValue="{Binding CurrProgress.ProgressValue}" Description="{StaticResource WindowTitle}" Overlay="{Binding CurrProcessInfo.OverlayIcon}">
             <TaskbarItemInfo.ThumbButtonInfos>
