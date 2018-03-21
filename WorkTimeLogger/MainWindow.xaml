@@ -37,13 +37,13 @@
         </TaskbarItemInfo>
     </Window.TaskbarItemInfo>
     <DockPanel Name="MainDockPanel" SizeChanged="MainDockPanel_SizeChanged">
-        <!--<DockPanel.LayoutTransform>
+        <DockPanel.LayoutTransform>
             <ScaleTransform x:Name="ApplicationScaleTransform"
                         CenterX="0"
                         CenterY="0"
                         ScaleX="{Binding ElementName=mw, Path=ScaleValue}"
                         ScaleY="{Binding ElementName=mw, Path=ScaleValue}" />
-        </DockPanel.LayoutTransform>-->
+        </DockPanel.LayoutTransform>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Visibility="{Binding CurrProcessInfo.ErrorOcurred, Converter={StaticResource BoolToVisConverter}}">
             <StackPanel.Background>
                 <LinearGradientBrush>
