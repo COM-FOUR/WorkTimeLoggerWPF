@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Globalization;
 using System.Windows.Shell;
 using System.Diagnostics;
+using System.IO;
 
 //using System.Drawing;
 
@@ -917,14 +918,22 @@ namespace WorkTimeLogger
             }
 
             this.CurrentLedgers.CollectionChanged += currentLedgers_CollectionChanged;
-            
-            
 
-            switch (Properties.Settings.Default.BackgroundImage)
+            string choosenbackground="";
+
+            if (Properties.Settings.Default.BackgroundImage.Count > 0)
+            {
+                Random rnd = new Random();
+                int index = rnd.Next(0, Properties.Settings.Default.BackgroundImage.Count);
+                choosenbackground = Properties.Settings.Default.BackgroundImage[index];
+            }
+
+            LinearGradientBrush lgb = new LinearGradientBrush(new GradientStopCollection()
+                        { new GradientStop(Colors.Gray, 0.6), new GradientStop(Colors.LightSlateGray, 0.1) });
+
+            switch (choosenbackground)
             {
                 case "":
-                    LinearGradientBrush lgb = new LinearGradientBrush(new GradientStopCollection()
-                        { new GradientStop(Colors.Gray, 0.6), new GradientStop(Colors.LightSlateGray, 0.1) });
                     background = lgb;
                     break;
                 case "pussy" : background = new ImageBrush(new BitmapImage(new Uri(@"pack://application:,,,/WorkTimeLogger;component/Images/pink.png")));
@@ -933,11 +942,40 @@ namespace WorkTimeLogger
                     background = new ImageBrush(new BitmapImage(new Uri(@"pack://application:,,,/WorkTimeLogger;component/Images/military.png")));
                     break;
                 default:
-                    background = new ImageBrush(new BitmapImage(new Uri(Properties.Settings.Default.BackgroundImage)));
+                    if (File.Exists(choosenbackground))
+                    {
+                        background = new ImageBrush(new BitmapImage(new Uri(choosenbackground)));
+                    }
+                    else
+                    {
+                        if (Directory.Exists(choosenbackground))
+                        {
+                            DirectoryInfo dirinfo = new DirectoryInfo(choosenbackground);
+                            FileInfo[] files = new string[] { "*.png", "*.bmp" , "*.jpg" }
+                                                .SelectMany(i => dirinfo.GetFiles(i, SearchOption.AllDirectories))
+                                                .ToArray();
+
+                            if (files.Length>0)
+                            {
+                                Random rnd = new Random();
+                                int index = rnd.Next(0, files.Length);
+                                background = new ImageBrush(new BitmapImage(new Uri(files[index].FullName)));
+                            }
+                            else
+                            {
+                                //background = lgb;
+                            }
+                            
+                        }
+                        //background = lgb;
+                    }
+                    
                     break;
             }
-
-            //background = new ImageBrush(new BitmapImage(new Uri(@"pack://application:,,,/WorkTimeLogger;component/Images/military.png")));
+            if (choosenbackground==null)
+            {
+                background = lgb;
+            }
         }
         #endregion
 
