@@ -931,7 +931,7 @@ namespace WorkTimeLogger
             LinearGradientBrush lgb = new LinearGradientBrush(new GradientStopCollection()
                         { new GradientStop(Colors.Gray, 0.6), new GradientStop(Colors.LightSlateGray, 0.1) });
 
-            switch (choosenbackground)
+            switch (choosenbackground.ToLower())
             {
                 case "":
                     background = lgb;
@@ -972,7 +972,7 @@ namespace WorkTimeLogger
                     
                     break;
             }
-            if (choosenbackground==null)
+            if (background == null)
             {
                 background = lgb;
             }
