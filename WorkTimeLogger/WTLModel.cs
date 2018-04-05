@@ -1213,8 +1213,15 @@ namespace WorkTimeLogger
             try
             {
                 WTL_Service.WTL_PortClient wtl = new WTL_Service.WTL_PortClient("WTL_Port", Properties.Settings.Default.ServiceURL);
-                wtl.ClientCredentials.Windows.ClientCredential = new NetworkCredential(Properties.Settings.Default.ServiceLogin, Properties.Settings.Default.ServicePassword);
-
+                if (Properties.Settings.Default.ServiceLogin!="" & Properties.Settings.Default.ServicePassword!="")
+                {
+                    wtl.ClientCredentials.Windows.ClientCredential = new NetworkCredential(Properties.Settings.Default.ServiceLogin, Properties.Settings.Default.ServicePassword);
+                }
+                else
+                {
+                    wtl.ClientCredentials.Windows.ClientCredential = CredentialCache.DefaultNetworkCredentials;
+                }
+                
                 result = wtl.GetServerTime(currLogin.Signature, ref serverTime);
 
                 serverTime = serverTime.ToLocalTime();
