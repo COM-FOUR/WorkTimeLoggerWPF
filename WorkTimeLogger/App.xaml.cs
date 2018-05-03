@@ -44,9 +44,11 @@ namespace WorkTimeLogger
 
             CreateJumpList();
 
-            MainWindow mw = new MainWindow();
+            MainWindow mw = new MainWindow()
+            {
+                DataContext = model
+            };
 
-            mw.DataContext = model;
             if (model.CurrProcessInfo.StartMaximized)
             {
                 mw.WindowState = System.Windows.WindowState.Maximized;
@@ -58,19 +60,22 @@ namespace WorkTimeLogger
         /// </summary>
         public static void CreateJumpList()
         {
-            var myResourceDictionary = new ResourceDictionary();
-            myResourceDictionary.Source =
+            var myResourceDictionary = new ResourceDictionary()
+            {
+                Source =
                 new Uri("pack://application:,,,/Resources/StringResources.xaml",
-                        UriKind.RelativeOrAbsolute);  
-            
+                        UriKind.RelativeOrAbsolute)
+            };
+
             JumpList jl = new JumpList();
             JumpList.SetJumpList(Application.Current, jl);
 
             for (int i = 0; i < 6; i++)
             {
-                JumpTask jt = new JumpTask();
-                jt.IconResourcePath = AppDomain.CurrentDomain.BaseDirectory+"\\Icons.dll";
-
+                JumpTask jt = new JumpTask()
+                {
+                    IconResourcePath = AppDomain.CurrentDomain.BaseDirectory + "\\Icons.dll"
+                };
                 switch (i)
                 {
                     case 0:

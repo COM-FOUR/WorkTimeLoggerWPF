@@ -591,7 +591,7 @@ namespace WorkTimeLogger
     public class WTLViewModel : WTLModel
     {
         #region privates
-        internal  Application currApp;
+        internal Application currApp;
         internal Login currLogin;
         internal ProcessInformation currProcessInfo;
         //private UIElementInfo currUIElementInfo;
@@ -638,46 +638,46 @@ namespace WorkTimeLogger
         public Login CurrLogin { get { return currLogin; } set { currLogin = value; this.NotifyPropertyChanged("CurrLogin"); } }
         public ProcessInformation CurrProcessInfo { get { return currProcessInfo; } set { currProcessInfo = value; this.NotifyPropertyChanged("CurrProcessInfo"); } }
         //public UIElementInfo CurrUIElementInfo { get { return currUIElementInfo; } set { currUIElementInfo = value; this.NotifyPropertyChanged("CurrUIElementInfo"); } }
-        public Employee CurrEmployee { get { return currEmployee; } 
-            set 
-            { 
+        public Employee CurrEmployee { get { return currEmployee; }
+            set
+            {
                 currEmployee = value;
 
-                if (value == null | value.StaffNo  == null | value.StaffNo == "")
+                if (value == null | value.StaffNo == null | value.StaffNo == "")
                     return;
 
-                CurrProcessInfo.SmokingBreakEnabled = value.SmokingBreakEnabled; 
-                this.NotifyPropertyChanged("CurrEmployee"); 
-                
+                CurrProcessInfo.SmokingBreakEnabled = value.SmokingBreakEnabled;
+                this.NotifyPropertyChanged("CurrEmployee");
+
                 if (GetWorkTimeLedgers(currWorkTime.LogDate, out todaysLedgers))
                 {
                     SetCurrentLedgers(todaysLedgers);
                 }
-                
+
                 GetLastLogEntry();
                 UpdateSegments(todaysLedgers);
-            } 
+            }
         }
         public WorkTime CurrWorkTime { get { return currWorkTime; } set { currWorkTime = value; this.NotifyPropertyChanged("CurrWorkTime"); } }
         public WorkTimeLedger LastLogEntry { get { return lastLogEntry; } set { lastLogEntry = value; this.NotifyPropertyChanged("LastLogEntry"); } }
         public List<Employee> Employees { get { return employees; } set { employees = value; this.NotifyPropertyChanged("Employees"); } }
         public List<WorkTimeLedger> TodaysLedgers { get { return todaysLedgers; } set { todaysLedgers = value; CalcSegments(); this.NotifyPropertyChanged("TodaysLedgers"); } }
-        public DateTime CurrentDate { get { return currentDate; } 
-            set 
-            { 
+        public DateTime CurrentDate { get { return currentDate; }
+            set
+            {
                 currentDate = value;
-                
+
                 NotifyPropertyChanged("CurrentDate");
 
                 if (CurrEmployee.StaffNo != null)
                 {
                     SetCurrentLedgers(null);
                 }
-                
+
                 CurrentWeek = Helpers.GetCurrentWeek(value);
-            } 
+            }
         }
-        public int CurrentYear {get { return currentYear; } set{currentYear = value; NotifyPropertyChanged("CurrentYear"); } }
+        public int CurrentYear { get { return currentYear; } set { currentYear = value; NotifyPropertyChanged("CurrentYear"); } }
         public double YearlyVacationDays { get { return yearlyVacationDays; } set { yearlyVacationDays = value; this.NotifyPropertyChanged("YearlyVacationDays"); } }
         public double RemainingVacationDays { get { return remainingVacationDays; } set { remainingVacationDays = value; this.NotifyPropertyChanged("RemainingVacationDays"); } }
         public double DaysofIllness { get { return daysofIllness; } set { daysofIllness = value; this.NotifyPropertyChanged("DaysofIllness"); } }
@@ -723,7 +723,7 @@ namespace WorkTimeLogger
                 if (getVacationCommand == null)
                 {
                     getVacationCommand = new RelayCommand(param => this.GetVacations(),
-                        param => (this.currentYear !=0));
+                        param => (this.currentYear != 0));
                 }
                 return getVacationCommand;
             }
@@ -747,7 +747,7 @@ namespace WorkTimeLogger
                 if (getSurplusCommand == null)
                 {
                     getSurplusCommand = new RelayCommand(param => this.GetSurplus(),
-                        param => (this.currSurplus.DateFrom<=this.currSurplus.DateTo));
+                        param => (this.currSurplus.DateFrom <= this.currSurplus.DateTo));
                 }
                 return getSurplusCommand;
             }
@@ -887,8 +887,8 @@ namespace WorkTimeLogger
         #endregion
 
         #region constructors
-        public WTLViewModel(Application app) : this(app,new string[0]) { }
-        public WTLViewModel(Application app,string[] startupArgs)
+        public WTLViewModel(Application app) : this(app, new string[0]) { }
+        public WTLViewModel(Application app, string[] startupArgs)
         {
             currApp = app;
 
@@ -922,7 +922,7 @@ namespace WorkTimeLogger
 
             this.CurrentLedgers.CollectionChanged += currentLedgers_CollectionChanged;
 
-            string choosenbackground="";
+            string choosenbackground = "";
 
             if (Properties.Settings.Default.BackgroundImage.Count > 0)
             {
@@ -939,7 +939,7 @@ namespace WorkTimeLogger
                 case "":
                     background = lgb;
                     break;
-                case "pussy" : background = new ImageBrush(new BitmapImage(new Uri(@"pack://application:,,,/WorkTimeLogger;component/Images/pink.png")));
+                case "pussy": background = new ImageBrush(new BitmapImage(new Uri(@"pack://application:,,,/WorkTimeLogger;component/Images/pink.png")));
                     break;
                 case "cock":
                     background = new ImageBrush(new BitmapImage(new Uri(@"pack://application:,,,/WorkTimeLogger;component/Images/military.png")));
@@ -954,11 +954,11 @@ namespace WorkTimeLogger
                         if (Directory.Exists(choosenbackground))
                         {
                             DirectoryInfo dirinfo = new DirectoryInfo(choosenbackground);
-                            FileInfo[] files = new string[] { "*.png", "*.bmp" , "*.jpg" }
+                            FileInfo[] files = new string[] { "*.png", "*.bmp", "*.jpg" }
                                                 .SelectMany(i => dirinfo.GetFiles(i, SearchOption.AllDirectories))
                                                 .ToArray();
 
-                            if (files.Length>0)
+                            if (files.Length > 0)
                             {
                                 Random rnd = new Random();
                                 int index = rnd.Next(0, files.Length);
@@ -968,11 +968,11 @@ namespace WorkTimeLogger
                             {
                                 //background = lgb;
                             }
-                            
+
                         }
                         //background = lgb;
                     }
-                    
+
                     break;
             }
             if (background == null)
@@ -985,7 +985,7 @@ namespace WorkTimeLogger
         //events
         void currentLedgers_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            if (e.Action!= System.Collections.Specialized.NotifyCollectionChangedAction.Remove)
+            if (e.Action != System.Collections.Specialized.NotifyCollectionChangedAction.Remove)
             {
                 return;
             }
@@ -993,12 +993,12 @@ namespace WorkTimeLogger
             bool erroroccurred = false;
 
             foreach (WorkTimeLedger item in e.OldItems)
-	        {
+            {
                 if (!DeleteWorkTime(item))
                 {
                     erroroccurred = true;
                 }
-	        }
+            }
 
             if (erroroccurred)
             {
@@ -1006,7 +1006,7 @@ namespace WorkTimeLogger
                 SetErrorMessage("Beim Löschen der Arbeitszeit(en) ist ein Fehler aufgetreten");
             }
 
-            if (currentDate.Date==currWorkTime.LogDate.Date)
+            if (currentDate.Date == currWorkTime.LogDate.Date)
             {
                 GetLastLogEntry();
                 UpdateSegments(null);
@@ -1091,7 +1091,7 @@ namespace WorkTimeLogger
 
             switch (argtype)
             {
-                case "LOGIN": this.currLogin.UserID = argvalue;  break;
+                case "LOGIN": this.currLogin.UserID = argvalue; break;
                 case "PASSWORD": this.currLogin.Password = argvalue; break;
             }
         }
@@ -1117,15 +1117,15 @@ namespace WorkTimeLogger
                 CurrLogin = new Login();
             }
 
-            if (CurrProcessInfo!=null)
+            if (CurrProcessInfo != null)
             {
                 CurrLogin.UseWindowsAuthentication = CurrProcessInfo.UseWindowsAuthentication;
             }
-            
+
             if (CurrLogin.UseWindowsAuthentication)
             {
-                CurrLogin.UserID = String.Format("{0}\\{1}",Environment.UserDomainName,Environment.UserName);
-                CurrLogin.Password = String.Format("{0}\\{1}", Environment.UserName,Environment.UserDomainName);
+                CurrLogin.UserID = String.Format("{0}\\{1}", Environment.UserDomainName, Environment.UserName);
+                CurrLogin.Password = String.Format("{0}\\{1}", Environment.UserName, Environment.UserDomainName);
             }
             else
             {
@@ -1144,12 +1144,12 @@ namespace WorkTimeLogger
         /// checks if a button should be shown with a bold font
         /// </summary>
         internal void CheckBtnFontBold()
-        { 
-            CurrProcessInfo.BtnStartWorkDayBold = (lastLogEntry.LogType=="Logout" & lastLogEntry.LogSubtype=="WorkDay");
-            CurrProcessInfo.BtnEndWorkDayBold = (lastLogEntry.LogType=="Login");
-            CurrProcessInfo.BtnStartBreakBold = (lastLogEntry.LogType=="Login");
-            CurrProcessInfo.BtnEndBreakBold = (lastLogEntry.LogType=="Logout" & lastLogEntry.LogSubtype=="Break");
-            CurrProcessInfo.BtnStartSmokeBreakBold = (lastLogEntry.LogType=="Login");
+        {
+            CurrProcessInfo.BtnStartWorkDayBold = (lastLogEntry.LogType == "Logout" & lastLogEntry.LogSubtype == "WorkDay");
+            CurrProcessInfo.BtnEndWorkDayBold = (lastLogEntry.LogType == "Login");
+            CurrProcessInfo.BtnStartBreakBold = (lastLogEntry.LogType == "Login");
+            CurrProcessInfo.BtnEndBreakBold = (lastLogEntry.LogType == "Logout" & lastLogEntry.LogSubtype == "Break");
+            CurrProcessInfo.BtnStartSmokeBreakBold = (lastLogEntry.LogType == "Login");
             CurrProcessInfo.BtnEndSmokeBreakBold = (lastLogEntry.LogType == "Logout" & lastLogEntry.LogSubtype == "SmokeBreak");
         }
         /// <summary>
@@ -1159,11 +1159,11 @@ namespace WorkTimeLogger
         {
             BitmapImage bi = null;
 
-            if (lastLogEntry.LogType=="Login")
+            if (lastLogEntry.LogType == "Login")
             {
-                bi = new BitmapImage( new Uri("pack://application:,,,/WorkTimeLogger;component/Images/Income.ico"));
+                bi = new BitmapImage(new Uri("pack://application:,,,/WorkTimeLogger;component/Images/Income.ico"));
             }
-            if (lastLogEntry.LogType=="Logout" & lastLogEntry.LogSubtype=="Break")
+            if (lastLogEntry.LogType == "Logout" & lastLogEntry.LogSubtype == "Break")
             {
                 bi = new BitmapImage(new Uri("pack://application:,,,/WorkTimeLogger;component/Images/cocktail.ico"));
             }
@@ -1185,8 +1185,8 @@ namespace WorkTimeLogger
                 return;
             }
 
-            if (ledgers == null) 
-            { 
+            if (ledgers == null)
+            {
                 if (!GetWorkTimeLedgers(currentDate, out ledgers))
                 {
                     return;
@@ -1206,6 +1206,24 @@ namespace WorkTimeLogger
             currProcessInfo.ErrorMessage = error;
         }
         /// <summary>
+        /// returns credentials set in config, or default NetworkCredentials
+        /// </summary>
+        /// <returns>needed Credentials</returns>
+        internal NetworkCredential GetCurrentCredentials()
+        {
+            NetworkCredential result;
+
+            if (!currProcessInfo.UseWindowsAuthentication & Properties.Settings.Default.ServiceLogin != "" & Properties.Settings.Default.ServicePassword != "")
+            {
+                result = new NetworkCredential(Properties.Settings.Default.ServiceLogin, Properties.Settings.Default.ServicePassword);
+            }
+            else
+            {
+                result = CredentialCache.DefaultNetworkCredentials;
+            }
+            return result;
+        }
+        /// <summary>
         /// retrieves the ServerTime via WTL_Service
         /// </summary>
         /// <param name="serverTime">set to ServerTime if successfully retrieved</param>
@@ -1219,14 +1237,7 @@ namespace WorkTimeLogger
             try
             {
                 WTL_Service.WTL_PortClient wtl = new WTL_Service.WTL_PortClient("WTL_Port", Properties.Settings.Default.ServiceURL);
-                if (Properties.Settings.Default.ServiceLogin!="" & Properties.Settings.Default.ServicePassword!="")
-                {
-                    wtl.ClientCredentials.Windows.ClientCredential = new NetworkCredential(Properties.Settings.Default.ServiceLogin, Properties.Settings.Default.ServicePassword);
-                }
-                else
-                {
-                    wtl.ClientCredentials.Windows.ClientCredential = CredentialCache.DefaultNetworkCredentials;
-                }
+                wtl.ClientCredentials.Windows.ClientCredential = GetCurrentCredentials();
                 
                 result = wtl.GetServerTime(currLogin.Signature, ref serverTime);
 
@@ -1878,6 +1889,29 @@ namespace WorkTimeLogger
             }
         }
         /// <summary>
+        /// retrieves current EmployeeNo, determined by WebService via Login
+        /// </summary>
+        internal string GetCurrentEmployeeNo()
+        {
+            string result ="";
+
+            SetErrorMessage("");
+            
+            try
+            {
+                WTL_Service.WTL_PortClient wtl = new WTL_Service.WTL_PortClient("WTL_Port", Properties.Settings.Default.ServiceURL);
+                wtl.ClientCredentials.Windows.ClientCredential = new NetworkCredential(Properties.Settings.Default.ServiceLogin, Properties.Settings.Default.ServicePassword);
+
+                result = wtl.GetCurrEmployeeNo(currLogin.Signature);
+            }
+            catch (Exception e)
+            {
+                SetErrorMessage(e.Message);
+            }
+
+            return result;
+        }
+        /// <summary>
         /// retrieves ServerTime via WTL_Service
         /// </summary>
         /// <param name="updateSegments">update segments, if true</param>
@@ -1923,6 +1957,12 @@ namespace WorkTimeLogger
                 currProcessInfo.LoggedIn = true;
                 currProcessInfo.SelectedTab = 1;
 
+                string currEmployeeNo = CurrLogin.UserID;
+                if (CurrProcessInfo.UseWindowsAuthentication)
+                {
+                    currEmployeeNo = GetCurrentEmployeeNo();
+                }
+
                 bool ok = false;
 
                 if (CurrProcessInfo.CustomTimes | CurrProcessInfo.SelectEmployee)
@@ -1931,9 +1971,9 @@ namespace WorkTimeLogger
                 }
                 else
                 {
-                    ok = GetEmployeeList(CurrLogin.UserID);
+                    ok = GetEmployeeList(currEmployeeNo);
 
-                    if (CurrProcessInfo.isManager & !CurrProcessInfo.CustomTimes & !CurrProcessInfo.UseWindowsAuthentication)
+                    if (CurrProcessInfo.isManager & !CurrProcessInfo.CustomTimes)
                     {
                         ok = GetEmployeeList("");
                         currProcessInfo.DeleteAllowed = true;

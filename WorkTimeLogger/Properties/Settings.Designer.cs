@@ -25,7 +25,7 @@ namespace WorkTimeLogger.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("#navrep@com-four.local")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string ServiceLogin {
             get {
                 return ((string)(this["ServiceLogin"]));
@@ -34,7 +34,7 @@ namespace WorkTimeLogger.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("heute10!")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string ServicePassword {
             get {
                 return ((string)(this["ServicePassword"]));
@@ -53,7 +53,7 @@ namespace WorkTimeLogger.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool useWindowsAuthentication {
             get {
                 return ((bool)(this["useWindowsAuthentication"]));
@@ -81,7 +81,8 @@ namespace WorkTimeLogger.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
-            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" />")]
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
+            "tring>cock</string>\r\n</ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection BackgroundImage {
             get {
                 return ((global::System.Collections.Specialized.StringCollection)(this["BackgroundImage"]));

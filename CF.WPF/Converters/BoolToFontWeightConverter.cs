@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Globalization;
 using System.Windows.Data;
-using System.Windows.Shell;
 
-namespace WorkTimeLogger.Resources
+namespace CF.WPF.Converters
 {
     /// <summary>
     /// converter from boolean to FontWeight, for binding purposes

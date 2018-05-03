@@ -319,6 +319,20 @@
           </sequence>
         </complexType>
       </element>
+      <element name="GetCurrEmployeeNo">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="signature" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="GetCurrEmployeeNo_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="string" />
+          </sequence>
+        </complexType>
+      </element>
     </schema>
   </types>
   <message name="GetServerTime">
@@ -393,6 +407,12 @@
   <message name="StaffIsManager_Result">
     <part name="parameters" element="tns:StaffIsManager_Result" />
   </message>
+  <message name="GetCurrEmployeeNo">
+    <part name="parameters" element="tns:GetCurrEmployeeNo" />
+  </message>
+  <message name="GetCurrEmployeeNo_Result">
+    <part name="parameters" element="tns:GetCurrEmployeeNo_Result" />
+  </message>
   <portType name="WTL_Port">
     <operation name="GetServerTime">
       <input name="GetServerTime" message="tns:GetServerTime" />
@@ -441,6 +461,10 @@
     <operation name="StaffIsManager">
       <input name="StaffIsManager" message="tns:StaffIsManager" />
       <output name="StaffIsManager_Result" message="tns:StaffIsManager_Result" />
+    </operation>
+    <operation name="GetCurrEmployeeNo">
+      <input name="GetCurrEmployeeNo" message="tns:GetCurrEmployeeNo" />
+      <output name="GetCurrEmployeeNo_Result" message="tns:GetCurrEmployeeNo_Result" />
     </operation>
   </portType>
   <binding name="WTL_Binding" type="tns:WTL_Port">
@@ -553,10 +577,19 @@
         <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
       </output>
     </operation>
+    <operation name="GetCurrEmployeeNo">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/WTL:GetCurrEmployeeNo" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="GetCurrEmployeeNo">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="GetCurrEmployeeNo_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
   </binding>
   <service name="WTL">
     <port name="WTL_Port" binding="tns:WTL_Binding">
-      <address location="http://192.168.25.95:7047/NavServerCF/WS/COM-FOUR%20Computer%20Vertr.%20GmbH/Codeunit/WTL" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <address location="http://192.168.15.2:7047/NavServerCF/WS/COM-FOUR%20Computer%20Vertr.%20GmbH/Codeunit/WTL" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
     </port>
   </service>
 </definitions>

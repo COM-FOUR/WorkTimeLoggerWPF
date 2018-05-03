@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="5wAVxJc54RMBuSjiEvHVinobJPc=">
+<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="0xPiaVj6NYszO+YocFEXYxJb67o=">
   <bindingConfigurations>
     <bindingConfiguration bindingType="basicHttpBinding" name="WTL_Binding">
       <properties>
@@ -94,7 +94,7 @@
           <serializedValue>TransportSelected</serializedValue>
         </property>
         <property path="/security/transport/extendedProtectionPolicy/customServiceNames" isComplexType="true" isExplicitlyDefined="false" clrType="System.Security.Authentication.ExtendedProtection.Configuration.ServiceNameElementCollection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>(Auflistung)</serializedValue>
+          <serializedValue>(Sammlung)</serializedValue>
         </property>
         <property path="/security/transport/realm" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />
@@ -112,10 +112,10 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="WTL_Port" contract="WTL_Service.WTL_Port" bindingType="basicHttpBinding" address="http://192.168.25.95:7047/NavServerCF/WS/COM-FOUR Computer Vertr. GmbH/Codeunit/WTL" bindingConfiguration="WTL_Binding">
+    <endpoint name="WTL_Port" contract="WTL_Service.WTL_Port" bindingType="basicHttpBinding" address="http://192.168.15.2:7047/NavServerCF/WS/COM-FOUR Computer Vertr. GmbH/Codeunit/WTL" bindingConfiguration="WTL_Binding">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>http://192.168.25.95:7047/NavServerCF/WS/COM-FOUR%20Computer%20Vertr.%20GmbH/Codeunit/WTL</serializedValue>
+          <serializedValue>http://192.168.15.2:7047/NavServerCF/WS/COM-FOUR%20Computer%20Vertr.%20GmbH/Codeunit/WTL</serializedValue>
         </property>
         <property path="/behaviorConfiguration" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />

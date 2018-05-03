@@ -9,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WorkTimeLogger</RootNamespace>
     <AssemblyName>WorkTimeLogger</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -66,8 +67,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Resources\BoolToFontWeightConverter.cs" />
-    <Compile Include="Resources\PasswordBoxAssistant.cs" />
     <Compile Include="Service References\WTL_Service\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -120,6 +119,9 @@
     <None Include="Service References\WTL_Service\WorkTimeLogger.WTL_Service.DeleteWorkTime_Result.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Service References\WTL_Service\WorkTimeLogger.WTL_Service.GetCurrEmployeeNo_Result.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\WTL_Service\WorkTimeLogger.WTL_Service.GetLastWorkTime_Result.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -165,7 +167,7 @@
     <None Include="Service References\WTL_Service\WorkTimeLogger.WTL_Service.WorkTimeSurplus.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\WTL_Service\WTL.wsdl" />
+    <None Include="Service References\WTL_Service\WTL1.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -213,6 +215,17 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\military.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CF.WPF\CF.WPF.csproj">
+      <Project>{d8a67099-71cb-4f83-9add-7e5d368b797e}</Project>
+      <Name>CF.WPF</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Icons.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
