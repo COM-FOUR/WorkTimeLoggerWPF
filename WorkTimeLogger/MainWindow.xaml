@@ -545,7 +545,7 @@
                     </DataGrid>
                 </DockPanel>
             </TabItem>
-            <TabItem  Name="tiChangePass" Header="{DynamicResource TabHeadChangePass}" IsEnabled="{Binding CurrProcessInfo.LoggedIn}" Visibility="{Binding CurrProcessInfo.LoggedIn, Converter={StaticResource BoolToVisConverter}}">
+            <TabItem  Name="tiChangePass" Header="{DynamicResource TabHeadChangePass}" IsEnabled="{Binding CurrProcessInfo.LoggedIn}" Visibility="{Binding CurrProcessInfo.PasswordChangeEnabled, Converter={StaticResource BoolToVisConverter}}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>

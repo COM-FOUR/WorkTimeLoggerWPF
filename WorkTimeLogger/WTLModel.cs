@@ -209,7 +209,7 @@ namespace WorkTimeLogger
         public string SilentWorkToDo { get; set; }
         public int SelectedTab { get { return selectedTab; } set { selectedTab = value; NotifyPropertyChanged("SelectedTab"); } }
         public bool NeedsLogin { get { return needsLogin; } set { needsLogin = value; loggedIn=!value; NotifyPropertyChanged("NeedsLogin"); NotifyPropertyChanged("LoggedIn"); } }
-        public bool LoggedIn { get { return loggedIn; } set { loggedIn = value; needsLogin =!value; NotifyPropertyChanged("LoggedIn"); NotifyPropertyChanged("NeedsLogin"); } }
+        public bool LoggedIn { get { return loggedIn; } set { loggedIn = value; needsLogin =!value; NotifyPropertyChanged("LoggedIn"); NotifyPropertyChanged("NeedsLogin"); NotifyPropertyChanged("PasswordChangeEnabled"); } }
         public bool ScalingDisabled { get { return scalingDisabled; } set { scalingDisabled = value; NotifyPropertyChanged("ScalingDisabled "); } }
         public bool SmokingBreakEnabled { get { return smokingBreakEnabled; } set { smokingBreakEnabled = value; NotifyPropertyChanged("SmokingBreakEnabled"); } }
         public bool BtnStartWorkDayBold { get { return btnStartWorkDayBold; } set { btnStartWorkDayBold = value; NotifyPropertyChanged("BtnStartWorkDayBold"); } }
@@ -219,6 +219,8 @@ namespace WorkTimeLogger
         public bool BtnStartSmokeBreakBold { get { return btnStartSmokeBreakBold; } set { btnStartSmokeBreakBold = value; NotifyPropertyChanged("BtnStartSmokeBreakBold"); } }
         public bool BtnEndSmokeBreakBold { get { return btnEndSmokeBreakBold; } set { btnEndSmokeBreakBold = value; NotifyPropertyChanged("BtnEndSmokeBreakBold"); } }
         public ImageSource OverlayIcon { get { return overlayIcon; } set { overlayIcon = value; NotifyPropertyChanged("OverlayIcon"); } }
+
+        public bool PasswordChangeEnabled { get { return loggedIn & !useWindowsAuthentication; } set { } }
         #endregion
 
         #region Methods
@@ -1269,7 +1271,7 @@ namespace WorkTimeLogger
             try
             {
                 WTL_Service.WTL_PortClient wtl = new WTL_Service.WTL_PortClient("WTL_Port", Properties.Settings.Default.ServiceURL);
-                wtl.ClientCredentials.Windows.ClientCredential = new NetworkCredential(Properties.Settings.Default.ServiceLogin, Properties.Settings.Default.ServicePassword);
+                wtl.ClientCredentials.Windows.ClientCredential = GetCurrentCredentials();
 
                 result = wtl.ChangePassword(currLogin.Signature,currLogin.GetNewUserSignature(currEmployee.StaffNo));
 
@@ -1309,7 +1311,7 @@ namespace WorkTimeLogger
             try
             {
                 WTL_Service.WTL_PortClient wtl = new WTL_Service.WTL_PortClient("WTL_Port", Properties.Settings.Default.ServiceURL);
-                wtl.ClientCredentials.Windows.ClientCredential = new NetworkCredential(Properties.Settings.Default.ServiceLogin, Properties.Settings.Default.ServicePassword);
+                wtl.ClientCredentials.Windows.ClientCredential = GetCurrentCredentials();
 
                 WTL_Service.Member staffMember = new WTL_Service.Member();
 
@@ -1391,7 +1393,7 @@ namespace WorkTimeLogger
             try
             {
                 WTL_Service.WTL_PortClient wtl = new WTL_Service.WTL_PortClient("WTL_Port", Properties.Settings.Default.ServiceURL);
-                wtl.ClientCredentials.Windows.ClientCredential = new NetworkCredential(Properties.Settings.Default.ServiceLogin, Properties.Settings.Default.ServicePassword);
+                wtl.ClientCredentials.Windows.ClientCredential = GetCurrentCredentials();
 
                 if (currProcessInfo.CustomTimes)
                 {
@@ -1479,7 +1481,7 @@ namespace WorkTimeLogger
             try
             {
                 WTL_Service.WTL_PortClient wtl = new WTL_Service.WTL_PortClient("WTL_Port", Properties.Settings.Default.ServiceURL);
-                wtl.ClientCredentials.Windows.ClientCredential = new NetworkCredential(Properties.Settings.Default.ServiceLogin, Properties.Settings.Default.ServicePassword);
+                wtl.ClientCredentials.Windows.ClientCredential = GetCurrentCredentials();
 
                 result = wtl.DeleteWorkTime(currLogin.Signature, currEmployee.StaffNo, ledger.LogDateTime, ledger.LogType, ledger.LogSubtype);
                 
@@ -1504,7 +1506,7 @@ namespace WorkTimeLogger
             try
             {
                 WTL_Service.WTL_PortClient wtl = new WTL_Service.WTL_PortClient("WTL_Port", Properties.Settings.Default.ServiceURL);
-                wtl.ClientCredentials.Windows.ClientCredential = new NetworkCredential(Properties.Settings.Default.ServiceLogin, Properties.Settings.Default.ServicePassword);
+                wtl.ClientCredentials.Windows.ClientCredential = GetCurrentCredentials();
 
                 WTL_Service.WorkTimes worktimes = new WTL_Service.WorkTimes();
 
@@ -1548,7 +1550,7 @@ namespace WorkTimeLogger
             try
             {
                 WTL_Service.WTL_PortClient wtl = new WTL_Service.WTL_PortClient("WTL_Port", Properties.Settings.Default.ServiceURL);
-                wtl.ClientCredentials.Windows.ClientCredential = new NetworkCredential(Properties.Settings.Default.ServiceLogin, Properties.Settings.Default.ServicePassword);
+                wtl.ClientCredentials.Windows.ClientCredential = GetCurrentCredentials();
 
                 WTL_Service.WorkTimes worktimes = new WTL_Service.WorkTimes();
                 
@@ -1588,7 +1590,7 @@ namespace WorkTimeLogger
             try
             {
                 WTL_Service.WTL_PortClient wtl = new WTL_Service.WTL_PortClient("WTL_Port", Properties.Settings.Default.ServiceURL);
-                wtl.ClientCredentials.Windows.ClientCredential = new NetworkCredential(Properties.Settings.Default.ServiceLogin, Properties.Settings.Default.ServicePassword);
+                wtl.ClientCredentials.Windows.ClientCredential = GetCurrentCredentials();
 
                 WTL_Service.VacationDays vacationdays = new WTL_Service.VacationDays();
 
@@ -1768,7 +1770,7 @@ namespace WorkTimeLogger
             try
             {
                 WTL_Service.WTL_PortClient wtl = new WTL_Service.WTL_PortClient("WTL_Port", Properties.Settings.Default.ServiceURL);
-                wtl.ClientCredentials.Windows.ClientCredential = new NetworkCredential(Properties.Settings.Default.ServiceLogin, Properties.Settings.Default.ServicePassword);
+                wtl.ClientCredentials.Windows.ClientCredential = GetCurrentCredentials();
 
                 WTL_Service.ShiftPlans plans = new WTL_Service.ShiftPlans();
 
@@ -1819,7 +1821,7 @@ namespace WorkTimeLogger
             try
             {
                 WTL_Service.WTL_PortClient wtl = new WTL_Service.WTL_PortClient("WTL_Port", Properties.Settings.Default.ServiceURL);
-                wtl.ClientCredentials.Windows.ClientCredential = new NetworkCredential(Properties.Settings.Default.ServiceLogin, Properties.Settings.Default.ServicePassword);
+                wtl.ClientCredentials.Windows.ClientCredential = GetCurrentCredentials();
 
                 WTL_Service.WorkTimeSurplus surplusses = new WTL_Service.WorkTimeSurplus();
 
@@ -1873,7 +1875,7 @@ namespace WorkTimeLogger
             try
             {
                 WTL_Service.WTL_PortClient wtl = new WTL_Service.WTL_PortClient("WTL_Port", Properties.Settings.Default.ServiceURL);
-                wtl.ClientCredentials.Windows.ClientCredential = new NetworkCredential(Properties.Settings.Default.ServiceLogin, Properties.Settings.Default.ServicePassword);
+                wtl.ClientCredentials.Windows.ClientCredential = GetCurrentCredentials();
 
                 result = wtl.SetDefaultBreak(currLogin.Signature, currEmployee.StaffNo, currentDate.Year, Helpers.GetCurrentWeek(currentDate));
 
@@ -1900,7 +1902,7 @@ namespace WorkTimeLogger
             try
             {
                 WTL_Service.WTL_PortClient wtl = new WTL_Service.WTL_PortClient("WTL_Port", Properties.Settings.Default.ServiceURL);
-                wtl.ClientCredentials.Windows.ClientCredential = new NetworkCredential(Properties.Settings.Default.ServiceLogin, Properties.Settings.Default.ServicePassword);
+                wtl.ClientCredentials.Windows.ClientCredential = GetCurrentCredentials();
 
                 result = wtl.GetCurrEmployeeNo(currLogin.Signature);
             }
@@ -2007,7 +2009,7 @@ namespace WorkTimeLogger
                 case "STARTDAY": SetWorkTime(LogTypes.DayStart); break;
                 case "ENDDAY": SetWorkTime(LogTypes.DayEnd); break;
                 case "STARTBREAK": SetWorkTime(LogTypes.BreakStart); break;
-                case "ENDBREAK": SetWorkTime(LogTypes.DayEnd); break;
+                case "ENDBREAK": SetWorkTime(LogTypes.BreakEnd); break;
                 case "STARTSBREAK": SetWorkTime(LogTypes.SmokingBreakStart); break;
                 case "ENDSBREAK": SetWorkTime(LogTypes.SmokingBreakEnd); break;
                 default:
