@@ -184,6 +184,7 @@ namespace WorkTimeLogger
         internal string errorMessage;
         internal bool useWindowsAuthentication;
         internal bool startmaximized;
+        internal bool scalingDisabled;
         internal bool btnStartWorkDayBold;
         internal bool btnEndWorkDayBold;
         internal bool btnStartBreakBold;
@@ -209,6 +210,7 @@ namespace WorkTimeLogger
         public int SelectedTab { get { return selectedTab; } set { selectedTab = value; NotifyPropertyChanged("SelectedTab"); } }
         public bool NeedsLogin { get { return needsLogin; } set { needsLogin = value; loggedIn=!value; NotifyPropertyChanged("NeedsLogin"); NotifyPropertyChanged("LoggedIn"); } }
         public bool LoggedIn { get { return loggedIn; } set { loggedIn = value; needsLogin =!value; NotifyPropertyChanged("LoggedIn"); NotifyPropertyChanged("NeedsLogin"); } }
+        public bool ScalingDisabled { get { return scalingDisabled; } set { scalingDisabled = value; NotifyPropertyChanged("ScalingDisabled "); } }
         public bool SmokingBreakEnabled { get { return smokingBreakEnabled; } set { smokingBreakEnabled = value; NotifyPropertyChanged("SmokingBreakEnabled"); } }
         public bool BtnStartWorkDayBold { get { return btnStartWorkDayBold; } set { btnStartWorkDayBold = value; NotifyPropertyChanged("BtnStartWorkDayBold"); } }
         public bool BtnEndWorkDayBold { get { return btnEndWorkDayBold; } set { btnEndWorkDayBold = value; NotifyPropertyChanged("BtnEndWorkDayBold"); } }
@@ -243,6 +245,7 @@ namespace WorkTimeLogger
             selectedTab = 0;
             needsLogin = true;
             loggedIn = false;
+            ScalingDisabled = false;
             useWindowsAuthentication = Properties.Settings.Default.useWindowsAuthentication;
         }
     }
@@ -1069,6 +1072,9 @@ namespace WorkTimeLogger
                 case "USENTLM": currProcessInfo.UseWindowsAuthentication = true;
                     break;
                 case "MAXIMIZED": currProcessInfo.StartMaximized = true;
+                    break;
+                case "NOSCALE":
+                    currProcessInfo.ScalingDisabled = true;
                     break;
                 default:
                     break;
@@ -2244,10 +2250,7 @@ namespace WorkTimeLogger
 
         public RelayCommand(Action<object> execute, Predicate<object> canExecute)
         {
-            if (execute == null)
-                throw new ArgumentNullException("execute");
-
-            _execute = execute;
+            _execute = execute ?? throw new ArgumentNullException("execute");
             _canExecute = canExecute;
         }
         #endregion // Constructors

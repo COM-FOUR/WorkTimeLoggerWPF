@@ -25,7 +25,7 @@ namespace WorkTimeLogger.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("#navrep@com-four.local")]
         public string ServiceLogin {
             get {
                 return ((string)(this["ServiceLogin"]));
@@ -34,7 +34,7 @@ namespace WorkTimeLogger.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("heute10!")]
         public string ServicePassword {
             get {
                 return ((string)(this["ServicePassword"]));

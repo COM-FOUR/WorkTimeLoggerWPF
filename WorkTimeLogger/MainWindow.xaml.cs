@@ -74,6 +74,12 @@ namespace WorkTimeLogger
 
         private void CalculateScale()
         {
+            if (((WTLViewModel)this.DataContext).CurrProcessInfo.ScalingDisabled)
+            {
+                ScaleValue = 1;
+                return;
+            }
+
             double yScale = ActualHeight / 400f;
             double xScale = ActualWidth / 530f;
             double value = Math.Min(xScale, yScale);
